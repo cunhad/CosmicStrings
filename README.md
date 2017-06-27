@@ -1,1 +1,1 @@
-# CosmicStrings
+# Cosmic Strings

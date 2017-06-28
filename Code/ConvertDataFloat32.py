@@ -9,9 +9,13 @@ import numpy as np
 
 #imports the data file, converts it into float32 values, stores it into an array
 
-dataname = raw_input("What is the filename (without '.dat')?: ")
-dataname += ".dat"
-
+#Data acquisition
+default_dataname = "0.000xv0(1)"
+dataname = raw_input("filename w/o '.dat' (default is '%s')?: " %(default_dataname))
+if dataname == "":
+    dataname = default_dataname
+dataname = "../Data/" + dataname
+dataname +=".npz"
 #0.000xv0(2)
 data = np.fromfile(dataname, dtype=np.float32)
 
@@ -24,8 +28,17 @@ xvel=data[3::6]
 yvel=data[4::6]
 zvel=data[5::6]
 
-np.savez("pos(1).npz", x=x,y=y,z=z)
-np.savez("vel(1).npz", xvel=xvel,yvel=yvel,zvel=zvel)
+while True:
+    savename = raw_input("Name of saved file w/o .npz?")
+    if savename is not "":
+        break
+    else:
+        print "You did not enter a valid filename!"
+savename = "../Data/" + savename
+savename +=".npz"
+
+np.savez(savename, x=x,y=y,z=z)
+np.savez(savename, xvel=xvel,yvel=yvel,zvel=zvel)
 
 #import csv
 ##Rewrites everything into csv file

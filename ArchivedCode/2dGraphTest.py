@@ -25,15 +25,15 @@ for k in range(3):
   cells = max_x/cell_size
 
   print "Counting densities..."
-  plt.figure(3)
+  plt.figure(10)
   #counts, xedges, yedges, Image = plt.hist2d(xpos, ypos, (cells,cells), cmap=plt.cm.jet)
   counts, xedges, yedges, Image = plt.hist2d(dataset[k], dataset[(k+1)%3], (cells,cells), cmap=plt.cm.jet)
   #plt.colorbar()
   #plt.show()
-  plt.close(3)
+  plt.close(10)
   print "Done!"
 
-  #counts = np.transpose(counts)#This is only so that the graph comes out ok
+  counts = np.transpose(counts)#This is only so that the graph comes out ok
 
   norm_counts = (counts-np.mean(counts))/np.mean(counts)#Fluctuations
 
@@ -57,6 +57,7 @@ for k in range(3):
   cax.patch.set_alpha(0)
   cax.set_frame_on(False)
   plt.colorbar(orientation='vertical')
+  plt.savefig("../Images/%s%s_plane.png" %(coordinates[k],coordinates[(k+1)%3]))
   plt.show()
 
   linearCounts = (np.sum(counts, axis=0)-np.mean(np.sum(counts, axis=0)))/np.mean(np.sum(counts,axis=0))
@@ -66,6 +67,7 @@ for k in range(3):
   plt.title('%s-wise compression of %s%s plane' %(coordinates[(k+1)%3],coordinates[k],coordinates[(k+1)%3]))
   plt.xlim(0,np.int(cells-1))
   plt.grid(axis='both')
+  plt.savefig("../Images/%s_compression.png" %(coordinates[(k+1)%3]))
   plt.show()
 
 

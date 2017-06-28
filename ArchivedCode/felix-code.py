@@ -24,29 +24,21 @@ default_dataname = "pos(1)"
 dataname = raw_input(("filename (without '.npz') (default is '%s')?: " %default_dataname))
 if dataname == "":
     dataname = default_dataname
+dataname = "../Data/" + dataname
 dataname +=".npz"
 
-
-#xpos = list(np.load(dataname)['x'])
-#ypos = list(np.load(dataname)['y'])
-#zpos = list(np.load(dataname)['z'])
-
-
-
-xpos = list(np.array(np.load(dataname)['x']))
+#This loads individual positions 
+xpos = list(np.load(dataname)['x'])
 ypos = list(np.load(dataname)['y'])
 zpos = list(np.load(dataname)['z'])
-pos = []
-for i in range(len(xpos)):
-    pos.append((xpos[i], ypos[i], zpos[i]))
-print "Done!" 
 
+#Rearranges into one 2D array
 pos = np.zeros((3,len(xpos)))
 pos[0,:] = xpos[:]
 pos[1,:] = ypos[:]
 pos[2,:] = zpos[:]
 
-dataset = [xpos,ypos,zpos]
+#For looping purposes
 coordinates = ["X","Y","Z"]
 
 for k in range(3):
@@ -57,22 +49,23 @@ for k in range(3):
   print "Counting densities..."
   plt.figure(10)
 #  counts, xedges, yedges, Image = plt.hist2d(xpos, ypos, (cells,cells), cmap=plt.cm.jet)
-  counts, xedges, yedges, Image = plt.hist2d(dataset[k], dataset[(k+1)%3], (cells,cells), cmap=plt.cm.jet)
+  counts, xedges, yedges, Image = plt.hist2d(pos[k], pos[(k+1)%3], (cells,cells), cmap=plt.cm.jet)
 #  plt.colorbar()
 #  plt.show()
   plt.close(10)
   print "Done!"
 
-  #counts = np.transpose(counts)#This is only so that the graph comes out ok
+  counts = np.transpose(counts)#This is only so that the graph comes out ok
 
   norm_counts = (counts-np.mean(counts))/np.mean(counts)#Fluctuations
-  np.save(('norm_counts%d.npy' %k), norm_counts)
+  #Saves fluctuation files 
+  np.save(('../Data/norm_counts%d_%s.npy' %(k,default_dataname)), norm_counts)
 
-
-#  for i in range(len(norm_counts)):
-#      for j in range(len(norm_counts[i])):
-#          if norm_counts[i][j]>2:
-#              norm_counts[i][j] = 2
+  #Cutoff point
+  for i in range(len(norm_counts)):
+      for j in range(len(norm_counts[i])):
+          if norm_counts[i][j]>2:
+              norm_counts[i][j] = 2
 
   heatmap_size = (8,5)
 
@@ -88,7 +81,7 @@ for k in range(3):
   cax.get_yaxis().set_visible(False)
   cax.patch.set_alpha(0)
   cax.set_frame_on(False)
-
+  plt.savefig("../Images/%s%s_plane.png" %(coordinates[k],coordinates[(k+1)%3]))
   plt.show()
 
   linearCounts = (np.sum(counts, axis=0)-np.mean(np.sum(counts, axis=0)))/np.mean(np.sum(counts,axis=0))
@@ -98,9 +91,10 @@ for k in range(3):
   plt.title('%s-wise compression of %s%s plane' %(coordinates[(k+1)%3],coordinates[k],coordinates[(k+1)%3]))
   plt.xlim(0,40)
   plt.grid(axis='both')
+  plt.savefig("../Images/%s_compression.png" %(coordinates[(k+1)%3]))
   plt.show()
   
-FFT
+#FFT
   
 
 FFTdata = np.abs(np.fft.fftn(dataset))

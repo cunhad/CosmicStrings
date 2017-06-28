@@ -11,9 +11,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 print "Loading positions..."
-xpos = list(np.load('pos.npz')['x'])
-ypos = list(np.load('pos.npz')['y'])
-zpos = list(np.load('pos.npz')['z'])
+xpos = list(np.load('../Data/pos.npz')['x'])
+ypos = list(np.load('../Data/pos.npz')['y'])
+zpos = list(np.load('../Data/pos.npz')['z'])
 print "Done!" 
 
 dataset = [xpos,ypos,zpos]
@@ -26,7 +26,7 @@ for k in range(3):
 
   print "Counting densities..."
   plt.figure(3)
-  counts, xedges, yedges, Image = plt.hist2d(xpos, ypos, (cells,cells), cmap=plt.cm.jet)
+  #counts, xedges, yedges, Image = plt.hist2d(xpos, ypos, (cells,cells), cmap=plt.cm.jet)
   counts, xedges, yedges, Image = plt.hist2d(dataset[k], dataset[(k+1)%3], (cells,cells), cmap=plt.cm.jet)
   #plt.colorbar()
   #plt.show()
@@ -37,7 +37,7 @@ for k in range(3):
 
   norm_counts = (counts-np.mean(counts))/np.mean(counts)#Fluctuations
 
-  for i in range(len(norm_counts)):
+  for i in range(len(norm_counts)):#Cutoff value
       for j in range(len(norm_counts[i])):
           if norm_counts[i][j]>2:
               norm_counts[i][j] = 2
@@ -46,7 +46,7 @@ for k in range(3):
 
   fig = plt.figure(figsize=heatmap_size)
 
-  ax = fig.add_subplot(111)
+  ax = fig.add_subplot(111)#2D heatmap of compressed data
   ax.set_title('%s%s plane' %(coordinates[k],coordinates[(k+1)%3]))
   plt.imshow(norm_counts, aspect='auto', interpolation='none', origin='lower', extent=(0,40,0,40))
 
@@ -61,7 +61,7 @@ for k in range(3):
 
   linearCounts = (np.sum(counts, axis=0)-np.mean(np.sum(counts, axis=0)))/np.mean(np.sum(counts,axis=0))
 
-  plt.figure("%i" %k)
+  plt.figure("%i" %k)#1D compression of data
   plt.plot(range(np.int(cells)),linearCounts,'k-')
   plt.title('%s-wise compression of %s%s plane' %(coordinates[(k+1)%3],coordinates[k],coordinates[(k+1)%3]))
   plt.xlim(0,np.int(cells-1))

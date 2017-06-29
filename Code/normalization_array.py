@@ -55,23 +55,39 @@ def only_quadrant_assignment(size):
 
 def octant_assignment(size):
     cube = np.zeros((size,size,size))#initiates an empty matrix
-    step = np.int(size/2.0)#Calculates the amount of steps 
-    value = size #Initial value is n
-    if size%2 == 0:#If the square has an even n-size, the result is different
-        value -= 1
-        step -= 1
-    while step >= 0: #Until no more steps aloud
-        for i in range(step+1):#Sets the value for each of the horizontal and vertical lines
-            cube[step-i,step,step] = value
-            cube[step,step-i,step] = value  
-            
-            cube[step,step-i,step] = value
-            cube[step,step,step-i] = value
-            
-            cube[step,step,step-i] = value
-            cube[step-i,step,step] = value 
-        value -= 2 #Decrementations
-        step -= 1
+    
+    
+    mid = size/2
+
+    
+    val = 1
+    
+    for k in range(mid+1):
+        val=1
+        for i in range(mid+1):
+            cube[i, 0, k] = val
+            cube[0, i, k] = val
+            val += 2
+    
+    for k in range(mid+1):
+        for j in range(1, mid+1):
+            for i in range(1, mid+1):
+                cube[i, j, k] = cube[i-1, j, k]
+    
+    for k in range(mid+1):
+        for i in range(1, mid+1):
+            for j in range(1, mid+1):
+                if cube [i, j-1, k] > cube[i, j, k]:
+                    cube[i, j, k] = cube[i, j-1, k]
+    
+    for k in range(1, mid+1):
+        for j in range(mid+1):
+            for i in range(mid+1):
+                if cube[i, j, k-1] < size-1:
+                    cube[i, j, k] = cube[i, j, k-1] + 2
+                else:
+                    cube[i, j, k] = cube[i, j, k-1]
+    
     return cube
 
 def twins2d(square):
@@ -147,3 +163,4 @@ def twins3d(cube):
     
     
 
+myCube = twins3d(octant_assignment(120))

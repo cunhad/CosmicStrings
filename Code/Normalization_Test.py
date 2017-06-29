@@ -38,6 +38,9 @@ for h in range(nbCells):
         #slope = (endPt[h][i] - startPt[h][i])
         dirVect[h, i] = slope
 
+
+
+
 #Find a measure for each cube
 
 nbSteps = 20.0*nbCells
@@ -80,14 +83,43 @@ def xArray(start, end, length):
     for k in range(len(stepLenArray)):
         for l in range(nbSteps):
             stepsArray[k, l] = start[k][0] + l*lenSteps
+            
+    return stepsArray
+    
+def ySlope(start, end):
+    my = 0
+    slopeYArray = []
+    for i in range(len(start)):
+        my = (end[i][1] - start[i][1])/(end[i][0] - start[i][0])
+        slopeYArray.append(my)
+    
+    return slopeYArray
+
+def zSlope(start, end):
+    mz = 0
+    slopeZArray = []
+    for i in range(len(start)):
+        mz = (end[i][2] - start[i][2])/(end[i][0] - start[i][0])
+        slopeZArray.append(mz)
+    
+    return slopeZArray
     
     
+def yArray(xIncrements, start, ySlope):
+    yArray = np.zeros((nbCells, nbSteps), dtype = np.float)
+    for i in range(nbCells):
+        for j in range(nbSteps):
+            yArray[i, j] = xIncrements[i, j]*ySlope[i][j] + start[i][1]
     
+    return yArray
     
+def yArray(xIncrements, start, zSlope):
+    zArray = np.zeros((nbCells, nbSteps), dtype = np.float)
+    for i in range(nbCells):
+        for j in range(nbSteps):
+            zArray[i, j] = xIncrements[i, j]*zSlope[i][j] + start[i][2]
     
-        
-        
-    
+    return zArray
     
 
 

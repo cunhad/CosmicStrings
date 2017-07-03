@@ -21,7 +21,7 @@ for x in range(nbCells):
     for y in range(nbCells):
         for z in range(nbCells):
             count += 1
-            cube[x][y][z] = count
+            cubeNb[x][y][z] = count
 
 
 
@@ -113,7 +113,7 @@ def yArray(xIncrements, start, ySlope):
     
     return yArray
     
-def yArray(xIncrements, start, zSlope):
+def zArray(xIncrements, start, zSlope):
     zArray = np.zeros((nbCells, nbSteps), dtype = np.float)
     for i in range(nbCells):
         for j in range(nbSteps):
@@ -122,54 +122,45 @@ def yArray(xIncrements, start, zSlope):
     return zArray
     
 
-
-
+def cubeIds(xArray, yArray, zArrays):
+    cubeIdx = np.zeros((nbCells, nbSteps), dtype = np.float)
+    cubeIdy = np.zeros((nbCells, nbSteps), dtype = np.float)
+    cubeIdz = np.zeros((nbCells, nbSteps), dtype = np.float)
     
+    for i in range(nbSteps):
+        for j in range(nbCells):
+            for k in range(nbCells):
+                if (xArray[i][j] <= (k+1)*20) and  (xArray[i][j] >= k*20):
+                    cubeIdx[i, j] = k
+                if (yArray[i][j] <= (k+1)*20) and  (yArray[i][j] >= k*20):
+                    cubeIdy[i, j] = k
+                if (zArray[i][j] <= (k+1)*20) and  (zArray[i][j] >= k*20):
+                    cubeIdz[i, j] = k
+            
     
+    coordinate = [0, 0, 0]
+    coordinateSave = [-1, -1, -1]
+    lineNorm = []
+    normFact = 0
+    for line in range(nbCells):
+        for step in range(nbSteps):
+            coordinate[0] = cubeIdx[step, line]
+            coordinate[1] = cubeIdy[step, line]
+            coordinate[2] = cubeIdz[step, line]
     
-    
-    
-    
-    #We need to do this for each line 
-"""
-for line in range(nbCells):
-    
-    #Make array of x cube ids
-    xCount = startPt[line][0]*20
-    while xCount*20*dirVect[line][0] <= endPt[line][0]:
-        for m in range(length):
-            if (xCount*20*dirVect >= m*cubeLength) and (xCount*20*dirVect <= (m+1)*cubeLength):
-                xPos.append(m)
-        xCount += 1
+            if (coordinate[0] != coordinateSave[0]) or (coordinate[1] != coordinateSave[1]) or (coordinate[2] != coordinateSave[2]):
+                normFact += cubeNb[coordinate[0], coordinate[1], coordinate[2]]
         
-    #Make array of y cube ids
-    yCount = startPt[line][1]*20
-    while xCount*20*dirVect[line][1] <= endPt[line][1]:
-        for n in range(length):
-            if (yCount*20*dirVect >= n*cubeLength) and (yCount*20*dirVect <= (n+1)*cubeLength):
-                yPos.append(n)
-        yCount += 1
-      
-    #Make array of z cube ids
-    zCount = startPt[line][2]*20
-    while xCount*20*dirVect[line][2] <= endPt[line][2]:
-        for p in range(length):
-            if (zCount*20*dirVect >= p*cubeLength) and (zCount*20*dirVect <= (p+1)*cubeLength):
-                zPos.append(p)
-        zCount += 1
-    
-    # Find the total cube ids and make sure they are unique
-    
-    
-    
-    for counter in range(first, last):
-        for x in range(nbCells):
-            for y in range(nbCells):
-                for z in range(nbCells):
-                
-    
         
-"""      
+        lineNorm.append(normFact)
+        for counter in range(3):
+            coordinateSave[counter] = coordinate[counter]
+    return lineNorm
+
+  
+    
+    
+
         
         
         

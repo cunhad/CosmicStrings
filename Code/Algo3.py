@@ -13,6 +13,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import bresenhamND as bnd
 import angles as ang
 import normalization_array as na
+import Normalization_Test as normal
 #import density as den
 
 
@@ -84,19 +85,24 @@ def algorithm3(pos):
     lines = []
     for i in range(len(startl)):
         lines.append(bnd.bresenhamline(startl[i], endl[i], max_iter=-1) )   
-    print lines
+    
+    
+    
+    
     #Apply 1D FFT for each line
-    for i in range(size):
+    for i in range(len(startl)):
         #apply 1D FFT for each line theta[i], phi[i]
-#        print("Just for format")
+        
+        
+
         return
     
     coeffs = []
     
     # Appply 1D Wavelet to find coefficients
-    for i in range(size):
+    #for i in range(size):
         #Apply wavelet
-        print("Just for format")
+        #print("Just for format")
         
     
     

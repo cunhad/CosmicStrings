@@ -15,6 +15,8 @@ import math
 start = list(np.load("startEndPts.npz")['startArr'])
 end = list(np.load('startEndPts.npz')['endArr'])
 
+print(start)
+
 def startf(start):
     startf = [[]]
     endf = [[]]
@@ -80,20 +82,20 @@ def findPhi(vect):
 
 
 
-#################################
 
 
-#vector = dirVector(startf, endf)
+"""
+vector = dirVector(startf, endf)
 
-#aTheta = findTheta(vector)
-#print(aTheta)
-#
-#aPhi = findPhi(vector)
-#print(aPhi)
+aTheta = findTheta(vector)
+print(aTheta)
+
+aPhi = findPhi(vector)
+print(aPhi)
 
 
 
-
+"""
 
 
 

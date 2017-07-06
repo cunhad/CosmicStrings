@@ -24,6 +24,5 @@ ax2.imshow(sinogram, cmap=plt.cm.Greys_r,
            extent=(0, 180, 0, sinogram.shape[0]), aspect='auto')
 
 fig.tight_layout()
-plt.colorbar()
-plt.savefig("../Images/radon_test.png")
+fig.savefig("../Images/radon_test.png")
 plt.show()

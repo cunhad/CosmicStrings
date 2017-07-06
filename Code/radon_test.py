@@ -7,7 +7,7 @@ from skimage.io import imread
 from skimage import data_dir
 from skimage.transform import radon, rescale
 
-image = imread("wakedensity.png", as_grey=True)
+image = imread("../Images/wakedensity.png", as_grey=True)
 image = rescale(image, scale=0.4, mode='reflect')
 
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4.5))
@@ -25,4 +25,5 @@ ax2.imshow(sinogram, cmap=plt.cm.Greys_r,
 
 fig.tight_layout()
 plt.colorbar()
+plt.savefig("../Images/radon_test.png")
 plt.show()

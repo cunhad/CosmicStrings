@@ -7,6 +7,7 @@ Created on Tue Jun 20 11:55:52 2017
 """
 import numpy as np 
 
+
 def line2D(side):
     """2D endpoint creation for square of side length side"""
     startCell = []

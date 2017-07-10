@@ -8,10 +8,6 @@ from scipy import signal
 import numpy as np
 import pywt 
 import matplotlib.pyplot as plt
-import os
-
-def clear():
-    os.system('cls' if os.name=='nt' else 'clear')
 
 def max_wavelet_level(data):
     max_level = np.int(np.log2(len(data)))

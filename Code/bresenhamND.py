@@ -124,3 +124,30 @@ THIS IS HOW WE USE IT
 #if __name__ == "__main__":
 #    import doctest
 #    doctest.testmod()
+
+
+"""for 3D: lines creation """
+#start = list(np.load("startEndPts.npz")['startArr'])
+#end = list(np.load('startEndPts.npz')['endArr'])
+
+import cube 
+#start , end = cube.lineparse(120)
+
+#array = []
+#for i in range(len(start)):
+#    array.append(bresenhamline(start[i], end[i], max_iter=-1) ) 
+
+
+"""for 2D: lines creation """
+#startl , endl = cube.line2D(120)
+
+#array = []
+#for i in range(len(startl)):
+#    array.append(bresenhamline(startl[i], endl[i], max_iter=-1) )    
+    
+
+"""rename this file when you save """
+#np.savez("name.npz",array = array)
+
+
+

@@ -102,6 +102,7 @@ def algorithm3(pos):
                 fftLines.append(FFTposABS[k,line[k]])
 #            fftLines.append(FFTposABS[lines[i][j]])
         
+<<<<<<< HEAD
 
     newLines = np.zeros((len(lines[i]), 3))
     count = 0
@@ -110,6 +111,10 @@ def algorithm3(pos):
             newLines[i, j] = fftLines[count]
             count +=1
     
+=======
+#    fftLines_seperated = fftLines[0::len(lines[i])]
+    fftLines = np.reshape(fftLines, (43200, 120, 3))
+>>>>>>> 275de2bf3bbb9625ddac03c1cfd09dcd6cc7ee77
     #Need normalization later
         
     

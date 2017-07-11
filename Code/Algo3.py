@@ -102,6 +102,14 @@ def algorithm3(pos):
                 fftLines.append(FFTposABS[k,line[k]])
 #            fftLines.append(FFTposABS[lines[i][j]])
         
+
+    newLines = np.zeros((len(lines[i]), 3))
+    count = 0
+    for i in range(len(lines[i])):
+        for j in range(3):
+            newLines[i, j] = fftLines[count]
+            count +=1
+    
     #Need normalization later
         
     
@@ -119,10 +127,10 @@ def algorithm3(pos):
     
     
     
-    return lines, FFTposABS, fftLines
+    return lines, FFTposABS, fftLines, newLines
   
 
-lines, FFTposABS, fftLines = algorithm3(pos)
+lines, FFTposABS, fftLines, newLines = algorithm3(pos)
 
 
 

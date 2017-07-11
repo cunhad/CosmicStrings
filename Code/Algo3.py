@@ -16,12 +16,8 @@ import normalization_array as na
 #import Normalization_Test as normal
 import peakdetection as pd
 #import density as den
-<<<<<<< HEAD
 import pywt
-=======
 import Normalization2DNew as norm
-
->>>>>>> 56a5f1324e1d4d887fb7b352be5f63b9e09566e3
 
 #Data acquisition
 default_dataname = "pos(1)"
@@ -105,61 +101,38 @@ def algorithm3(pos):
         for j in range(len(lines[i])):
             line = lines[i][j]
             for k in range(len(line)):
-                fftLines.append(FFTposABS[k,line[k]])
+#                fftLines.append(FFTposABS[k,line[k]])
+                fftLines.append(FFTpos[k,line[j][k]])
 #            fftLines.append(FFTposABS[lines[i][j]])
 
     
 
 #    fftLines_seperated = fftLines[0::len(lines[i])]
     fftLines = np.reshape(fftLines, (43200, 120, 3))
-<<<<<<< HEAD
     
-    
-=======
+    ifftLines = np.hypot(np.real(np.fft.ifft(fftLines)), np.imag(np.fft.ifft(fftLines)))
 
->>>>>>> 56a5f1324e1d4d887fb7b352be5f63b9e09566e3
     #Need normalization later
     pointNormalization = norm.pointNorm(weightedCube, lines, dim)
     lineNormalization = norm.lineNorm(pointNormalization)
-    totalNormalization = norm.normalizeLine(pointNormalization, fftLines, lineNormalization)
+    totalNormalization = norm.normalizeLine(pointNormalization, ifftLines, lineNormalization)
     
-
+    
 #        return
     
     coeffs = []    
     
     # Appply 1D Wavelet to find coefficients
-    for i in range(len(fftLines)):
-        coeffs.append(pywt.dwt(fftLines[i], 'haar'))
+    for i in range(len(ifftLines)):
+        coeffs.append(pywt.dwt(ifftLines[i], 'haar'))
                 
     
     
     
     
-    return lines, FFTposABS, fftLines, newLines, totalNormalization
+    return lines, FFTposABS, fftLines, totalNormalization, coeffs,ifftLines
   
 
-lines, FFTposABS, fftLines, newLines, totalNormalization = algorithm3(pos)
-print(totalNormalization)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#r, theta, phi = algorithm3(pos)
+lines, FFTposABS, fftLines, totalNormalization, coeffs,ifftLines = algorithm3(pos)
+#print(totalNormalization)
+print np.shape(coeffs)

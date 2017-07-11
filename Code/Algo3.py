@@ -128,10 +128,10 @@ def algorithm3(pos):
     
     
     
-    return lines, FFTposABS, fftLines, newLines, totalNormalization
+    return lines, FFTposABS, fftLines, totalNormalization
   
 
-lines, FFTposABS, fftLines, newLines, totalNormalization = algorithm3(pos)
+lines, FFTposABS, fftLines, totalNormalization = algorithm3(pos)
 print(totalNormalization)
 
 

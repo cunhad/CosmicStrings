@@ -86,7 +86,7 @@ def detect_peak(data, level = -1, current_index = 0):
         if l-i < 0:
             break        
 #        print l
-        if np.abs(data[max_found[l-i]])<np.mean(data)+1*np.std(data):
+        if np.abs(data[max_found[l-i]])<np.mean(data)+2*np.std(data):
             max_found = np.delete(max_found, l-i)
 #            print "Deleted %d" %(l-i)
     return max_found, D
@@ -106,6 +106,7 @@ def plotting(data, D, max_found):
     plt.plot(np.linspace(data.argmax(),data.argmax(),25), np.linspace(data.min(),data.max(),25), 'k--', label = "Max")
     plt.legend(loc=1, fontsize=10)
     plt.xlim(0,len(data)-1)
+    plt.ylim(-2,12)
     plt.savefig("../Images/peakTest.png")
     plt.show()
     

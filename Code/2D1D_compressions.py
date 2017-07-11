@@ -10,9 +10,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 print "Loading positions..."
-xpos = list(np.load('../Data/pos(1).npz')['x'])
-ypos = list(np.load('../Data/pos(1).npz')['y'])
-zpos = list(np.load('../Data/pos(1).npz')['z'])
+xpos = list(np.load('../Data/pos.npz')['x'])
+ypos = list(np.load('../Data/pos.npz')['y'])
+zpos = list(np.load('../Data/pos.npz')['z'])
 print "Done!" 
 
 dataset = [xpos,ypos,zpos]
@@ -65,7 +65,7 @@ for k in range(3):
 
     linearCounts = (np.sum(counts, axis=0)-np.mean(np.sum(counts, axis=0)))/np.mean(np.sum(counts,axis=0))
     
-    np.save(('../Data/compressed1DlinearCounts%d_%s.npy' %(k,default_dataname)), linearCounts)
+    np.save(('../Data/compressed1DlinearCounts_nowake_%d_%s.npy' %(k,default_dataname)), linearCounts)
     
     plt.figure("%i" %k)#1D compression of data
     plt.plot(range(np.int(cells)),linearCounts,'k-')

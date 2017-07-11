@@ -11,9 +11,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import bresenhamND as bnd
-import angles as ang
+#import angles as ang
 import normalization_array as na
-import Normalization_Test as normal
+#import Normalization_Test as normal
+import peakdetection as pd
 #import density as den
 
 
@@ -71,8 +72,8 @@ def algorithm3(pos):
 #    print len(FFTposABS)
     print "Done!"
    
-    startl = np.load('../Data/startEndPts2D.npz')['startl']
-    endl = np.load('../Data/startEndPts2D.npz')['endl']
+    startl = np.load('../Data/startEndPts.npz')['startArr']
+    endl = np.load('../Data/startEndPts.npz')['endArr']
     
     #Still good: DO NOT ERASE
     #Finding the lines associated with the bresenham lines
@@ -89,15 +90,25 @@ def algorithm3(pos):
     
     
     
-    #Apply 1D FFT for each line
+    #Apply inverse 1D FFT for each line
+#    fftLines = np.zeros((len(startl),3))
+    fftLines = []
+#    print np.shape(FFTposABS)
+#    print np.shape(lines)
     for i in range(len(startl)):
-        #apply 1D FFT for each line theta[i], phi[i]
+        for j in range(len(lines[i])):
+            line = lines[i][j]
+            for k in range(len(line)):
+                fftLines.append(FFTposABS[k,line[k]])
+#            fftLines.append(FFTposABS[lines[i][j]])
         
+    #Need normalization later
         
-
-        return
     
-    coeffs = []
+
+#        return
+    
+#    coeffs = []
     
     # Appply 1D Wavelet to find coefficients
     #for i in range(size):
@@ -108,10 +119,10 @@ def algorithm3(pos):
     
     
     
-    return lines
+    return lines, FFTposABS, fftLines
   
 
-arrayOfWaveletCoeffs = algorithm3(pos)
+lines, FFTposABS, fftLines = algorithm3(pos)
 
 
 

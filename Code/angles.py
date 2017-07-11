@@ -12,8 +12,8 @@ array[hight][length]
 import numpy as np
 import math
 
-start = list(np.load("startEndPts.npz")['startArr'])
-end = list(np.load('startEndPts.npz')['endArr'])
+start = list(np.load("../Data/startEndPts.npz")['startArr'])
+end = list(np.load('../Data/startEndPts.npz')['endArr'])
 
 print(start)
 

@@ -148,9 +148,9 @@ def width_det(data, max_found):
 ydata = np.load("../Data/compressed1DlinearCounts2_InitialTry.npy")
 
 #Testing
-max_found, D = detect_peak(ydata,4)
-plotting(ydata,D, max_found)
-widths = width_det(ydata, max_found)
+#max_found, D = detect_peak(ydata,4)
+#plotting(ydata,D, max_found)
+#widths = width_det(ydata, max_found)
 #print widths
 #
 #result = accuracy_det(ydata)

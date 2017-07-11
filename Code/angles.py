@@ -19,7 +19,6 @@ print(start)
 
 def startf(start):
     startf = [[]]
-    endf = [[]]
     for i in range(len(start)):
             temps = []
             temps.append(float(start[i][0,0]))
@@ -46,17 +45,14 @@ def dirVector(myArray1, myArray2):
     
     dirVect = []
     
-    if(len(myArray1) != len(myArray2)):
-        print("The array lengths don't match.")
-        return " "
-    else:
-        hight = len(myArray1)
-        length = len(myArray1[0])
-        dirVect = [[0 for col in range(length)] for row in range(hight)]
-        for j in range(length):
-            for i in range (hight):
-                diff = myArray2[i][j] - myArray1[i][j]
-                dirVect[i][j] = diff
+
+    hight = len(myArray1)
+    length = len(myArray1[0])
+    dirVect = [[0 for col in range(length)] for row in range(hight)]
+    for j in range(length):
+        for i in range (hight):
+            diff = myArray2[i][j] - myArray1[i][j]
+            dirVect[i][j] = diff
     
     return dirVect
         
@@ -84,7 +80,7 @@ def findPhi(vect):
 
 
 
-"""
+
 vector = dirVector(startf, endf)
 
 aTheta = findTheta(vector)
@@ -93,9 +89,6 @@ print(aTheta)
 aPhi = findPhi(vector)
 print(aPhi)
 
-
-
-"""
 
 
 

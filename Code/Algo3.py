@@ -102,6 +102,7 @@ def algorithm3(pos):
                 fftLines.append(FFTposABS[k,line[k]])
 #            fftLines.append(FFTposABS[lines[i][j]])
         
+    fftLines_seperated = fftLines[0::len(lines[i])]
     #Need normalization later
         
     

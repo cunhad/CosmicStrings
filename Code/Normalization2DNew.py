@@ -11,7 +11,7 @@ Input Recieved:
 import normalization_array as na
 
 
-def pointNorm(data, array):
+def pointNorm(data, array, dim):
     pointNorm = 0
     normArray = []
     x = 0

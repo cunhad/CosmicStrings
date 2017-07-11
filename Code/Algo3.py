@@ -16,6 +16,7 @@ import normalization_array as na
 #import Normalization_Test as normal
 import peakdetection as pd
 #import density as den
+import Normalization2DNew as norm
 
 
 #Data acquisition
@@ -61,6 +62,7 @@ for k in range(3):
 
 def algorithm3(pos):
         
+    dim = 3
     #Find the weight
     size = 120
     weightedCube = na.twins3d(na.octant_assignment(size))
@@ -108,7 +110,9 @@ def algorithm3(pos):
     fftLines = np.reshape(fftLines, (43200, 120, 3))
 
     #Need normalization later
-        
+    pointNormalization = norm.pointNorm(weightedCube, lines, dim)
+    lineNormalization = norm.lineNorm(pointNormalization)
+    totalNormalization = norm.normalizeLine(pointNormalization, fftLines, lineNormalization)
     
 
 #        return
@@ -124,10 +128,11 @@ def algorithm3(pos):
     
     
     
-    return lines, FFTposABS, fftLines, newLines
+    return lines, FFTposABS, fftLines, newLines, totalNormalization
   
 
-lines, FFTposABS, fftLines, newLines = algorithm3(pos)
+lines, FFTposABS, fftLines, newLines, totalNormalization = algorithm3(pos)
+print(totalNormalization)
 
 
 

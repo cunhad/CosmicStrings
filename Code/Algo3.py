@@ -16,7 +16,7 @@ import normalization_array as na
 #import Normalization_Test as normal
 import peakdetection as pd
 #import density as den
-
+import pywt
 
 #Data acquisition
 default_dataname = "pos(1)"
@@ -104,19 +104,20 @@ def algorithm3(pos):
         
 #    fftLines_seperated = fftLines[0::len(lines[i])]
     fftLines = np.reshape(fftLines, (43200, 120, 3))
+    
+    
     #Need normalization later
         
     
 
 #        return
     
-#    coeffs = []
+    coeffs = []    
     
     # Appply 1D Wavelet to find coefficients
-    #for i in range(size):
-        #Apply wavelet
-        #print("Just for format")
-        
+    for i in range(len(fftLines)):
+        coeffs.append(pywt.dwt(fftLines[i], 'haar'))
+                
     
     
     

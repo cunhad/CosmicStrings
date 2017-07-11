@@ -6,18 +6,18 @@ Created on Tue Jun  6 13:58:36 2017
 """
 
 
-#print "Importing data..."
 import numpy as np
 import matplotlib.pyplot as plt
 
 print "Loading positions..."
-xpos = list(np.load('../Data/pos.npz')['x'])
-ypos = list(np.load('../Data/pos.npz')['y'])
-zpos = list(np.load('../Data/pos.npz')['z'])
+xpos = list(np.load('../Data/pos(1).npz')['x'])
+ypos = list(np.load('../Data/pos(1).npz')['y'])
+zpos = list(np.load('../Data/pos(1).npz')['z'])
 print "Done!" 
 
 dataset = [xpos,ypos,zpos]
 coordinates = ["x","y","z"]
+default_dataname = "InitialTry"
 
 for k in range(3):
     cell_size = 2.0
@@ -64,7 +64,9 @@ for k in range(3):
     plt.show()
 
     linearCounts = (np.sum(counts, axis=0)-np.mean(np.sum(counts, axis=0)))/np.mean(np.sum(counts,axis=0))
-
+    
+    np.save(('../Data/compressed1DlinearCounts%d_%s.npy' %(k,default_dataname)), linearCounts)
+    
     plt.figure("%i" %k)#1D compression of data
     plt.plot(range(np.int(cells)),linearCounts,'k-')
     plt.title('%s-wise compression of %s%s plane' %(coordinates[(k+1)%3],coordinates[k],coordinates[(k+1)%3]))

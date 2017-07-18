@@ -10,9 +10,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 print "Loading positions..."
-xpos = list(np.load('../Data/pos.npz')['x'])
-ypos = list(np.load('../Data/pos.npz')['y'])
-zpos = list(np.load('../Data/pos.npz')['z'])
+xpos = list(np.load('../Data/pos(1).npz')['x'])
+ypos = list(np.load('../Data/pos(1).npz')['y'])
+zpos = list(np.load('../Data/pos(1).npz')['z'])
 print "Done!" 
 
 dataset = [xpos,ypos,zpos]

@@ -31,18 +31,12 @@ def multilevel_wavelet(data, level, An = [], Dn = []):
 #an array with all appropriate indices (i+1).
 def zero_crossing(data,level):
     crossings = []
-    std_away = 0
     for i in range(len(data)-1):
-        #This checks for 3 sigmas significance
-#        if np.abs(data[i+1]-data[i]) >= np.mean(data) + std_away*np.std(data):
-            #There are 2 cases for zero crossing
-            #Still testing this!!!
-            if data[i] > 0 and data[i+1] < 0: 
-                crossings.append((2*i+1)*2**(level-1))
-#                crossings.append((i+1)*2**level)
-            if data[i] < 0 and data[i+1] > 0:
-                crossings.append((2*i+1)*2**(level-1))             
-#                crossings.append((i+1)*2**level)
+        #Still testing this!!!
+        if data[i] > 0 and data[i+1] < 0: 
+            crossings.append((2*i+1)*2**(level-1))
+        if data[i] < 0 and data[i+1] > 0:
+            crossings.append((2*i+1)*2**(level-1))             
     return np.double(crossings)
     
 #Returns the nearest value of an array
@@ -106,7 +100,7 @@ def plotting(data, D, max_found):
     plt.plot(np.linspace(data.argmax(),data.argmax(),25), np.linspace(data.min(),data.max(),25), 'k--', label = "Max")
     plt.legend(loc=1, fontsize=10)
     plt.xlim(0,len(data)-1)
-    plt.ylim(-2,12)
+    plt.ylim(-7,12)
     plt.savefig("../Images/peakTest.png")
     plt.show()
     
@@ -145,7 +139,8 @@ def width_det(data, max_found):
 #ydata += signal.gaussian(data_lenght, std=5)
 #xdata = np.arange(0,data_lenght)
             
-ydata = np.load("../Data/compressed1DlinearCounts2_InitialTry.npy")
+ydata = np.load("../Data/compressed1DlinearCounts_nowake_2_InitialTry.npy")
+#ydata = np.load("../Data/compressed1DlinearCounts2_InitialTry.npy")
 
 #Testing
 max_found, D = detect_peak(ydata,4)

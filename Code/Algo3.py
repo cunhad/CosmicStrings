@@ -5,7 +5,6 @@ Created on Fri Jun  9 19:25:14 2017
 @author: felix
 """
 
-
 #import graph_data as data
 import numpy as np
 import matplotlib.pyplot as plt
@@ -131,39 +130,10 @@ def algorithm3(pos):
     
     
     
-<<<<<<< HEAD
+
     return lines, FFTposABS, fftLines, totalNormalization, coeffs,ifftLines
   
 
 lines, FFTposABS, fftLines, totalNormalization, coeffs,ifftLines = algorithm3(pos)
 #print(totalNormalization)
 print np.shape(coeffs)
-=======
-    return lines, FFTposABS, fftLines, totalNormalization
-  
-
-lines, FFTposABS, fftLines, totalNormalization = algorithm3(pos)
-print(totalNormalization)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#r, theta, phi = algorithm3(pos)
->>>>>>> b3f78f03cb0d3380020a09445234f1b644be0a5d

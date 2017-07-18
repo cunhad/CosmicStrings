@@ -32,6 +32,8 @@ xpos = np.load(dataname)['x']
 ypos = np.load(dataname)['y']
 zpos = np.load(dataname)['z']
 
+
+
 #Rearranges into one 2D array
 pos = np.zeros((3,len(xpos)))
 pos[0,:] = xpos[:]
@@ -96,7 +98,6 @@ def algorithm3(pos):
 #    fftLines = np.zeros((len(startl),3))
     fftLines = []
 #    print np.shape(FFTposABS)
-#    print np.shape(lines)
     for i in range(len(startl)):
         for j in range(len(lines[i])):
             line = lines[i][j]
@@ -130,9 +131,39 @@ def algorithm3(pos):
     
     
     
+<<<<<<< HEAD
     return lines, FFTposABS, fftLines, totalNormalization, coeffs,ifftLines
   
 
 lines, FFTposABS, fftLines, totalNormalization, coeffs,ifftLines = algorithm3(pos)
 #print(totalNormalization)
 print np.shape(coeffs)
+=======
+    return lines, FFTposABS, fftLines, totalNormalization
+  
+
+lines, FFTposABS, fftLines, totalNormalization = algorithm3(pos)
+print(totalNormalization)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#r, theta, phi = algorithm3(pos)
+>>>>>>> b3f78f03cb0d3380020a09445234f1b644be0a5d

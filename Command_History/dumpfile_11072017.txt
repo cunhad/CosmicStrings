@@ -1,0 +1,440 @@
+    1  yppasswd
+    2  exit
+    3  spyder &
+    4  ls
+    5  cd mai
+    6  cd mail
+    7  mail
+    8  Do
+    9  Downloads
+   10  ls -la
+   11  gnome-open
+   12  gnome-open ./
+   13  head /bin/bash
+   14  exit
+   15  cd ../
+   16  ls
+   17  cd oumnia/m
+   18  cd oumnia/
+   19  ls
+   20  cd ./
+   21  cd ../
+   22  ls
+   23  cd ../
+   24  ls
+   25  cd ../
+   26  ks
+   27  ls
+   28  cd home
+   29  ls
+   30  cd ./
+   31  cd ../homes
+   32  ls
+   33  cd  chipaya/
+   34  l
+   35  sls
+   36  ls
+   37  exit
+   38  sudo nano /etc/ssh/sshd_config 
+   39  nano /etc/ssh/sshd_config 
+   40  ls
+   41  cd /homes/chipaya/
+   42  ls
+   43  cd valinf/
+   44  ls
+   45  ls Desktop/
+   46  ls bin/
+   47  ls
+   48  ls Downloads 
+   49  cd Do
+   50  ls
+   51  ls -la
+   52  cd ../shimizu/
+   53  ls
+   54  cd ../
+   55  cd /
+   56  ls
+   57  cd scratch/irulan/camargod/
+   58  ls
+   59  scp -r cubep3m-master/
+   60  scp -r cubep3m-master/ /homes/chipaya/valinf/
+   61  cd /homes/chipaya/valinf/
+   62  ls
+   63  cd cubep3m-master/
+   64  ls
+   65  cd source_threads/
+   66  make -f Makefile_irulan clean
+   67  make -f Makefile_irulan'
+   68  ls
+   69  cd cubep3m-master/
+   70  cd source_threads/
+   71  ls
+   72  make -f Makefile_irulan clean
+   73  ls
+   74  make -f Makefile_irulan
+   75  cd ../
+   76  ls
+   77  find -name camb_28214126*
+   78  cd batch/
+   79  ls
+   80  bash COMPILE_dist_init_slab_nu._irulan.csh 
+   81  ls | grep *_dm
+   82  ls | grep *_dn
+   83  npiexec ./dist_init_dmnu_dm 
+   84  mpiexec ./dist_init_dmnu_dm 
+   85  sudo mpiexec ./dist_init_dmnu_dm 
+   86  mpiexec ./dist_init_dmnu_dm 
+   87  ls
+   88  cd ../
+   89  ls
+   90  cd /scratch/irulan/
+   91  ls
+   92  mkdir valinf
+   93  ls
+   94  scp -r cubep3m-master/ valinf/
+   95  cd valinf/
+   96  ls
+   97  cd cubep3m-master/
+   98  sl
+   99  ls
+  100  cd ../../
+  101  ls
+  102  cd chakoure/
+  103  ls
+  104  cd test/
+  105  ls
+  106  cd ../
+  107  ;s
+  108  ls
+  109  cd ../
+  110  ls
+  111  cd hyunjilee/
+  112  ls
+  113  cd ../shimizu/
+  114  ls
+  115  cd valinf
+  116  cd ../valinf/
+  117  ls
+  118  ls ../chakoure/
+  119  cd cubep3m-master/
+  120  ls
+  121  cd ../../camargod/
+  122  ls
+  123  cd ../valinf/
+  124  ls
+  125  cd /homes/chipaya/valinf/
+  126  ls
+  127  cd cubep3m-master/
+  128  ls
+  129  vim parameters
+  130  cd batch/
+  131  ls
+  132  bash COMPILE_dist_init_slab_nu.csh
+  133  bash COMPILE_dist_init_slab_nu._irulan.csh 
+  134  vim parameters 
+  135  cd ../
+  136  ks
+  137  ls
+  138  vim parameters
+  139  cd /scratch/irulan/valinf
+  140  ls
+  141  mkdir test
+  142  cd /homes/chipaya/valinf/
+  143  ls
+  144  cd cubep3m-master/
+  145  vim parameters
+  146  cd batch/
+  147  ls
+  148  bash COMPILE_dist_init_slab_nu._irulan.csh 
+  149  vim ../parameters
+  150  cd 
+  151  ls
+  152  mkdir Programs
+  153  mv cubep3m-master/ Programs/
+  154  ls
+  155  cd Programs/
+  156  ls
+  157  cd /homes/chipaya/valinf/
+  158  ls
+  159  cd Programs/cubep3m-master/
+  160  ls
+  161  cd batch/
+  162  bash COMPILE_dist_init_slab_nu._irulan.csh 
+  163  vim ../parameters
+  164  ls
+  165  cd ../source_threads/
+  166  ls
+  167  make -f Makefile_irulan clean
+  168  make -f Makefile_irulan
+  169  cd /scratch/irual
+  170  cd /scratch/irulan/
+  171  ls
+  172  cd valinf/
+  173  ls
+  174  cd test/
+  175  ls
+  176  ls -la
+  177  cd ../cubep3m-master/
+  178  ls
+  179  cd ../
+  180  rm -r cubep3m-master/
+  181  ls
+  182  cd /homes/chipaya/valinf/
+  183  ls
+  184  cd Programs/
+  185  ls
+  186  cd cubep3m-master/
+  187  ls
+  188  vim parameters
+  189  cd batch/
+  190  ls
+  191  bash COMPILE_dist_init_slab_nu._irulan.csh 
+  192  cd ../source_threads/
+  193  make -f Makefile_irulan clean
+  194  make -f Makefile_irulan
+  195  cd ../
+  196  ls
+  197  vim parameters
+  198  cd batch/
+  199  bash COMPILE_dist_init_slab_nu._irulan.csh 
+  200  cd .../
+  201  cd ../
+  202  vim parameters
+  203  cd batch/
+  204  mpiexec ./dist_init_dmnu_dm 
+  205  cd ../
+  206  cd /scratch/irulan/valinf/
+  207  ls
+  208  cd test/
+  209  ls
+  210  ln -s 31.000xv0.dat xv0.ic
+  211  qsub script2.sub
+  212  cd /homes/chipaya/valinf/
+  213  ls
+  214  cd Programs/cubep3m-master/source_threads/
+  215  qsub script2.sub
+  216  qstat -n1
+  217  ./cubep3m
+  218  cd ../
+  219  ls
+  220  cd source_threads/
+  221  ./cubep3m
+  222  cd ../
+  223  cd source_threads/
+  224  make -f Makefile_irulan clean
+  225  make -f Makefile_irulan
+  226  ./cube3pm
+  227  ./cubep3m
+  228  qsub script2.sub
+  229  qstat -n1
+  230  exit
+  231  qdel 343157.nyx.mcgill.mcg
+  232  qdel 343157.nyx.physics.mcgill.ca
+  233  ssh irulan
+  234  cd ../
+  235  cd valinf/
+  236  ls
+  237  cd Programs/
+  238  cd cubep3m-master/
+  239  ls
+  240  cat README 
+  241  ls
+  242  cd input/
+  243  ls
+  244  cd ../
+  245  ls
+  246  cd source_threads/
+  247  ls
+  248  qsub script2.sub
+  249  qstat -n1
+  250  vim script2.sub
+  251  qsub script2.sub
+  252  qstat -n1
+  253  ssh nyx
+  254  ls
+  255  cd ../
+  256  ls
+  257  cd source_threads/
+  258  ./cubep3m
+  259  ls
+  260  vim script2.sub
+  261  cd ../
+  262  ls
+  263  cd /scratch/irulan/valinf/
+  264  ls
+  265  cd test/
+  266  ls
+  267  cd ../
+  268  ls
+  269  cd valinf/
+  270  ls
+  271  rm cubep3m_5119.log test/*
+  272  ls
+  273  cd ../
+  274  ks
+  275  ls
+  276  cd valinf/
+  277  ls
+  278  ln -s /scratch/irulan/valinf/ scratch
+  279  cd scratch
+  280  cd ../
+  281  ls
+  282  rm scratch
+  283  ls
+  284  ln -s /homes/chipaya/valinf/ home
+  285  cd home
+  286  ls
+  287  cd ../
+  288  ks
+  289  ls
+  290  cd home/
+  291  ls
+  292  cd ,,.
+  293  cd ../
+  294  rm home
+  295  ls
+  296  cd /homes/chipaya/valinf/
+  297  ln -s /scratch/irulan/valinf/ scratch_link
+  298  ls
+  299  cd scratch_link
+  300  ls
+  301  cd ../
+  302  ls
+  303  cd scratch_link
+  304  ls
+  305  cd ./.
+  306  cd ../
+  307  ls
+  308  cd Programs/
+  309  ls
+  310  cd cubep3m-master/
+  311  ls
+  312  vim parameters
+  313  cd input/
+  314  ls
+  315  vim checkpoints
+  316  cd ../
+  317  cd source_threads/
+  318  ls
+  319  vim cubep3m.par
+  320  rm cubep3m.par
+  321  vim cubepm.par 
+  322  cd Programs/
+  323  ls
+  324  cd cubep3m-master/
+  325  ls
+  326  cd source_threads/
+  327  ls
+  328  cd ../
+  329  vim parameters
+  330  ls
+  331  cd bar
+  332  cd batch/
+  333  ls
+  334  cd ../
+  335  cd source_threads/
+  336  ls
+  337  cd ../
+  338  ls
+  339  cd ../../
+  340  ls
+  341  cd scratch_link
+  342  ls
+  343  cd /scratch/irulan/
+  344  ls
+  345  ls -l
+  346  cp wake_insertion.* valinf/
+  347  cd valinf/
+  348  ls
+  349  vim wake_insertion.sh 
+  350  cd ../
+  351  ls
+  352  cd chakoure/
+  353  ls
+  354  cd random/
+  355  ls
+  356  cp 0.000xv0.dat ../../valinf/
+  357  chmod 777 0.000xv0.dat 
+  358  chmod 0.000xv0.dat 
+  359  cp 0.000xv0.dat ../../valinf/
+  360  cd ../../valinf/
+  361  ls
+  362  cd ../
+  363  ls
+  364  cd camargod/
+  365  ls
+  366  cd ../chakoure/random/
+  367  ls
+  368  cd ..
+  369  cd ../
+  370  cd valinf/
+  371  ls
+  372  mkdir 64Mpc_512c_zi63_nowakes
+  373  ls
+  374  mv 0.000xv0.dat 64Mpc_512c_zi63_nowakes/
+  375  ls
+  376  cd 64Mpc_512c_zi63_nowakes/
+  377  ls
+  378  cd ../
+  379  ls
+  380  vim wake_insertion.sh 
+  381  bash wake_insertion.s
+  382  bash wake_insertion.sh 
+  383  ls
+  384  vim wake_insertion.sh 
+  385  cd ./.
+  386  cd ../
+  387  ls
+  388  ls -l
+  389  cp production/ valinf/
+  390  ls
+  391  cd valinf/
+  392  ls
+  393  cd ..
+  394  cp -r production/ /homes/chipaya/valinf/
+  395  cd /homes/chipaya/valinf/
+  396  ls
+  397  cd production/
+  398  ls
+  399  ls -l
+  400  cd wake_insertion/
+  401  ls
+  402  cd ../
+  403  cd /scratch/irulan/l
+  404  cd /scratch/irulan/
+  405  cd valinf/
+  406  ls
+  407  vim wake_insertion.s
+  408  vim wake_insertion.sh 
+  409  cd ../
+  410  cd /homes/chipaya/valinf/
+  411  ls
+  412  cd production/
+  413  cd wake_insertion/
+  414  vim wake_insertion.sh 
+  415  bash wake_insertion.sh 
+  416  cd /scratch/irulan/valinf/
+  417  ls
+  418  cd 64Mpc_512c_zi63_
+  419  cd 64Mpc_512c_zi63_wakeGmu8t10m7zi0s/
+  420  ls
+  421  cd ../
+  422  cd /homes/chipaya/valinf/
+  423  ls
+  424  cd Programs/
+  425  ls
+  426  cd cubep3m-master/
+  427  ls
+  428  vim parameters
+  429  vim input/checkpoints
+  430  cd ../sour
+  431  cd source_threads/
+  432  ls
+  433  vim cubepm.par 
+  434  history
+  435  cd ../../
+  436  cd ../
+  437  ls
+  438  mkdir hist_dump
+  439  cd hist_dump/
+  440  history > dumpfile_11072017.txt

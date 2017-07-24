@@ -80,7 +80,7 @@ def algorithm3(pos):
     FFTpos = np.fft.fftn(density)
 #    print len(FFTpos)
     FFTposABS = np.hypot(np.real(FFTpos),np.imag(FFTpos))
-    print np.shape(FFTposABS)
+#    print np.shape(FFTposABS)
 #    print len(FFTposABS)
     print "Done!"
     
@@ -109,8 +109,6 @@ def algorithm3(pos):
 #    
     #Apply inverse 1D FFT for each line
 #    fftLines = np.zeros((len(startl),3))
-    print np.shape(lines)
-    print np.shape(FFTposABS)
     fftLines = []
 #    print np.shape(FFTposABS)
     for i in range(len(lines)):
@@ -119,20 +117,23 @@ def algorithm3(pos):
 #            for k in range(len(lines[i][j])):
 ###                fftLines.append(FFTposABS[k,line[k]])
 #                x.append(lines[i][j][k])
-            fftLines.append(FFTposABS[lines[i][j][0]-1,lines[i][j][1]-1,lines[i][j][2]-1])
+            fftLines.append(FFTposABS[lines[i][j][0],lines[i][j][1],lines[i][j][2]])
 #            fftLines.append(FFTposABS[lines[i][j]])
-    return fftLines
-
+            
+#    print lines[i][j]
     
+#    return fftLines
 
-#    fftLines_seperated = fftLines[0::len(lines[i])]
-    fftLines = np.reshape(fftLines, (len(line), size, dim))
+    fftLines = np.reshape(fftLines, (len(lines), size))
     
     ifftLines = np.hypot(np.real(np.fft.ifft(fftLines)), np.imag(np.fft.ifft(fftLines)))
 
     #Need normalization later
     pointNormalization = norm.pointNorm(weightedCube, lines, dim)
     lineNormalization = norm.lineNorm(pointNormalization)
+    print np.shape(pointNormalization)
+    print np.shape(ifftLines)
+    print np.shape(lineNormalization)
     totalNormalization = norm.normalizeLine(pointNormalization, ifftLines, lineNormalization)
     
     

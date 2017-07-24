@@ -57,7 +57,8 @@ def _bresenhamlines(start, end, max_iter):
     nslope = _bresenhamline_nslope(end - start)
 
     # steps to iterate on
-    stepseq = np.arange(1, max_iter + 1)
+#    stepseq = np.arange(1, max_iter + 1)
+    stepseq = np.arange(0, max_iter)    
     stepmat = np.tile(stepseq, (dim, 1)).T
 
     # some hacks for broadcasting properly

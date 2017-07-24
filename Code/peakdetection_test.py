@@ -143,7 +143,7 @@ ydata = np.load("../Data/compressed1DlinearCounts_nowake_2_InitialTry.npy")
 #ydata = np.load("../Data/compressed1DlinearCounts2_InitialTry.npy")
 
 #Testing
-max_found, D = detect_peak(ydata,4)
+max_found, D = detect_peak(ydata,1)
 plotting(ydata,D, max_found)
 widths = width_det(ydata, max_found)
 #print widths

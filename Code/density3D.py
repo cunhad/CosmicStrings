@@ -9,19 +9,24 @@ Created on Mon Jul 17 20:03:49 2017
 import numpy as np
 import matplotlib.pyplot as plt
 
-##Data acquisition
-#default_dataname = "pos"
-#dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
-#if dataname == "":    
-#    dataname = default_dataname
-#dataname = "../Data/" + dataname
-#dataname +=".npz"
-#
-#print ("Loading '%s'..." %dataname)
-#xpos = np.load(dataname)['x']
-#ypos = np.load(dataname)['y']
-#zpos = np.load(dataname)['z']
-#print ("Done!")
+#Data acquisition
+default_dataname = "pos"
+dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
+if dataname == "":    
+    dataname = default_dataname
+dataname = "../Data/" + dataname
+dataname +=".npz"
+
+print ("Loading '%s'..." %dataname)
+xpos = np.load(dataname)['x']
+ypos = np.load(dataname)['y']
+zpos = np.load(dataname)['z']
+print ("Done!")
+
+pos = np.zeros((3,len(xpos)))
+pos[0,:] = xpos[:]
+pos[1,:] = ypos[:]
+pos[2,:] = zpos[:]
 
 def density(pos, cellSize = 2, speed = 1):
     
@@ -37,6 +42,8 @@ def density(pos, cellSize = 2, speed = 1):
     
     print ("Defining limits...")    
     #Brings the positions to start from (0,0,0)
+    print np.int(np.max((np.max(xpos),np.max(ypos),np.max(zpos))))
+    
     xMin = np.min(xpos)
     yMin = np.min(ypos)
     zMin = np.min(zpos)
@@ -46,10 +53,11 @@ def density(pos, cellSize = 2, speed = 1):
     zpos -= zMin
     
     #Determines the size of the density array
-    xSize = np.int(np.ceil(np.max(xpos)/cellSize))
-    ySize = np.int(np.ceil(np.max(ypos)/cellSize))
-    zSize = np.int(np.ceil(np.max(zpos)/cellSize))
-    size = np.max((np.max(xpos),np.max(ypos),np.max(zpos)))
+#    xSize = np.int(np.ceil(np.max(xpos)/cellSize))
+#    ySize = np.int(np.ceil(np.max(ypos)/cellSize))
+#    zSize = np.int(np.ceil(np.max(zpos)/cellSize))
+    print np.int(np.max((np.max(xpos),np.max(ypos),np.max(zpos))))
+    size = np.int(np.max((np.max(xpos),np.max(ypos),np.max(zpos))))/cellSize+1
     
 #    density = np.zeros((xSize,ySize,zSize))
     
@@ -64,24 +72,35 @@ def density(pos, cellSize = 2, speed = 1):
             print "{0:2.0f}%".format(np.float(i)/len(xpos) * 100)
         #This takes the coordinates --> which cell to count it into
         x = np.round(xpos[i])/cellSize
-        if x >= xSize:
-            x = xSize-1
+#        if x >= xSize:
+#            x = xSize-1
+        if x >= size:
+            x = size
         y = np.round(ypos[i])/cellSize
-        if y >= ySize:
-            y = ySize-1    
+#        if y >= ySize:
+#            y = ySize-1   
+        if y >= size:
+            y = size
         z = np.round(zpos[i])/cellSize
-        if z >= zSize:
-            z = zSize-1
+#        if z >= zSize:
+#            z = zSize-1
+        if z >= size:
+            z = size        
         #Adds a count to the appropriate cell
         density[x,y,z] += 1
     print ("Done!")       
     
     #Normalization
+    print ("Normalizing...")
     density = (density-np.mean(density))/np.mean(density)+1
     #Transposing for plot
     density = np.transpose(density)
+    print ("Done!")
 
     return density, size
+
+density, size  = density(pos, speed = 10)
+print size
 
 ##Cutoff value
 #cutoff = 2

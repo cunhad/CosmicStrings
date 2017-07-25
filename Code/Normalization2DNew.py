@@ -8,7 +8,7 @@ Input Recieved:
     1.normalizeLine(lineNorm(pointNorm(data, pointsInLines)), values, pointNorm(data, pointsInLines))
 """
 
-import normalization_array as na
+#import normalization_array as na
 
 
 def pointNorm(data, array, dim):
@@ -51,7 +51,7 @@ def lineNorm(normArray):
 
 
 def normalizeLine(normArray, valuesArray, lineFactor):
-    normalizaedLine = []
+    normalizedLine = []
     value = 0
     norm = 0
     normedValue = 0
@@ -60,10 +60,10 @@ def normalizeLine(normArray, valuesArray, lineFactor):
         value = valuesArray[i]
         norm = normArray[i]
         normedValue = (value/norm)/lineFactor
-        normalizaedLine.append(normedValue)
+        normalizedLine.append(normedValue)
     
     
-    return normalizaedLine
+    return normalizedLine
     
     
     

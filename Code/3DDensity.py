@@ -38,6 +38,11 @@ size = 120
 cube = na.twins3d(na.octant_assignment(size))
 
 
+xpos = xpos[:10000]
+ypos = ypos[:10000]
+zpos = zpos[:10000]
+
+
 #Define useful length
 nbCells = len(cube)
 

@@ -9,8 +9,8 @@ Created on Mon Jul 17 20:03:49 2017
 import numpy as np
 import matplotlib.pyplot as plt
 
-#Data acquisition
-#default_dataname = "pos"
+##Data acquisition
+#default_dataname = "pos(1)"
 #dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
 #if dataname == "":    
 #    dataname = default_dataname
@@ -37,7 +37,7 @@ def buffer_adjust(pos, nbCells):
     return pos
 
 #nbCells is determined before the simulation
-def density(pos, cellSize = 2.0, speed = 1, nbCells = 150):
+def density(pos, cellSize = 2.0, speed = 1, nbCells = 192):
     
     xpos = buffer_adjust(pos[0,:], nbCells)
     ypos = buffer_adjust(pos[1,:], nbCells)
@@ -82,16 +82,19 @@ def density(pos, cellSize = 2.0, speed = 1, nbCells = 150):
             print "{0:2.0f}%".format(np.float(i)/len(xpos) * 100)
         #This takes the coordinates --> which cell to count it into
         x = np.floor(xpos[i]/cellSize)
+        x = np.int(x)
 #        if x >= xSize:
 #            x = xSize-1
 #        if x >= size:
 #            x = size
         y = np.floor(ypos[i]/cellSize)
+        y = np.int(y)        
 #        if y >= ySize:
 #            y = ySize-1   
 #        if y >= size:
 #            y = size
         z = np.floor(zpos[i]/cellSize)
+        z = np.int(z)
 #        if z >= zSize:
 #            z = zSize-1
 #        if z >= size:
@@ -102,7 +105,7 @@ def density(pos, cellSize = 2.0, speed = 1, nbCells = 150):
     
     #Normalization
     print ("Normalizing...")
-    density = (density-np.mean(density))/np.mean(density)
+#    density = (density-np.mean(density))/np.mean(density)
     #Transposing for plot
     density = np.transpose(density)
     print ("Done!")
@@ -110,8 +113,8 @@ def density(pos, cellSize = 2.0, speed = 1, nbCells = 150):
     return density, size
 
 #density, size  = density(pos, speed = 10)
-#print size
-
+##print size
+#
 ##Cutoff value
 #cutoff = 2
 #for i in range(np.shape(density)[0]):

@@ -79,7 +79,7 @@ def algorithm3(pos):
     print "Computing 3D FFT..."
     FFTpos = np.fft.fftn(density)
 #    print len(FFTpos)
-    FFTposABS = np.hypot(np.real(FFTpos),np.imag(FFTpos))
+#    FFTposABS = np.hypot(np.real(FFTpos),np.imag(FFTpos))
 #    print np.shape(FFTposABS)
 #    print len(FFTposABS)
     print "Done!"
@@ -131,7 +131,6 @@ def algorithm3(pos):
     ifftLines = np.hypot(np.real(np.fft.ifft(fftLines)), np.imag(np.fft.ifft(fftLines)))
 
     print "Normalization of dataset..."
-    #Need normalization later
     pointNormalization = []
     lineNormalization = 0
     totalNormalization = []
@@ -194,18 +193,20 @@ def algorithm3(pos):
 
 cA, cD = algorithm3(pos)
 
-for i in range(len(cA)):
-    cA[i] = cA[i][10:40]
+np.savez("../Data/testCoefficients.npz", cA=cA, cD=cD)
 
-cA = cA[25::50]
+#for i in range(len(cA)):
+#    cA[i] = cA[i][10:40]
 
-max_cA = np.max(cA)
-print max_cA
+#cA = cA[0::50]
 
-plt.figure()
-for i in range(len(cA)):
-    plt.plot(np.linspace(0,96,len(cA[i])), cA[i])
-    plt.pause(0.0005)
+#max_cA = np.max(cA)
+#print max_cA
+#
+#plt.figure()
+#for i in range(len(cA)):
+#    plt.plot(np.linspace(0,96,len(cA[i])), cA[i])
+#    plt.pause(0.0005)
 
 
 

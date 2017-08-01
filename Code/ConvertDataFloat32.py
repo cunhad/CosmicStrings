@@ -14,8 +14,8 @@ default_dataname = "0.000xv0(1)"
 dataname = raw_input("filename w/o '.dat' (default is '%s')?: " %(default_dataname))
 if dataname == "":
     dataname = default_dataname
-dataname = "../Data/" + dataname
-dataname +=".npz"
+dataname = "../RawData/" + dataname
+dataname +=".dat"
 #0.000xv0(2)
 data = np.fromfile(dataname, dtype=np.float32)
 
@@ -38,7 +38,7 @@ savename = "../Data/" + savename
 savename +=".npz"
 
 np.savez(savename, x=x,y=y,z=z)
-np.savez(savename, xvel=xvel,yvel=yvel,zvel=zvel)
+#np.savez(savename, x*vel=xvel,yvel=yvel,zvel=zvel)
 
 #import csv
 ##Rewrites everything into csv file

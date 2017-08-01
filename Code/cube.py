@@ -69,7 +69,7 @@ def to2DFloat(start, end):
 #start = list(np.load("startEndPts.npz")['startArr'])
 #end = list(np.load('startEndPts.npz')['endArr'])
 
-startl , endl = line2D(120)
+startl , endl = lineParse(192)
 #np.savez("startEndPts2D.npz",startl=startl, endl=endl )
 #start2D = list(np.load("startEndPts2D.npz")['startl'])
 #end2D = list(np.load('startEndPts2D.npz')['endl'])

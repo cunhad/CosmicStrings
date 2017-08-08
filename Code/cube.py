@@ -13,11 +13,11 @@ def line2D(side):
     startCell = []
     endCell = [] 
     for i in range(side):
-            startCell.append(np.array([[i,0]]))
-            endCell.append(np.array([[side - i,side]]))
+            startCell.append([i,0])
+            endCell.append([side - i,side])
     for j in range(side):
-            startCell.append(np.array([[0,j]]))
-            endCell.append(np.array([[side,side - j]])) 
+            startCell.append([0,j])
+            endCell.append([side,side - j]) 
     return startCell , endCell
     
     
@@ -27,20 +27,20 @@ def lineParse(cubeLen):
     endArr = []
     for i in range(cubeLen):
         for j in range(cubeLen):
-                start = np.array([[i,j,0]])
-                end = np.array([[cubeLen-i, cubeLen-j, cubeLen]])
+                start = [i,j,0]
+                end = [cubeLen-i, cubeLen-j, cubeLen]
                 startArr.append(start)
                 endArr.append(end)
     for i in range(cubeLen):
         for j in range(cubeLen):
-                start = np.array([[i,0,j]])
-                end = np.array([[cubeLen-i, cubeLen, cubeLen-j]])
+                start = [i,0,j]
+                end = [cubeLen-i, cubeLen, cubeLen-j]
                 startArr.append(start)
                 endArr.append(end)
     for i in range(cubeLen):
         for j in range(cubeLen):
-                start = np.array([[0,i,j]])
-                end = np.array([[cubeLen, cubeLen-i, cubeLen-j]])
+                start = [0,i,j]
+                end = [cubeLen, cubeLen-i, cubeLen-j]
                 startArr.append(start)
                 endArr.append(end)
     return startArr, endArr

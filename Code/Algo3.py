@@ -20,6 +20,8 @@ import pywt
 import Normalization2DNew as norm
 import density3D as dens
 import cube
+import newBresenham_not_really as nbnr
+
 
 #Data acquisition
 default_dataname = "pos(1)"
@@ -65,9 +67,9 @@ print "Done!"
 #  #Saves fluctuation files
 #  np.save(('../Data/norm_counts%d_%s.npy' %(k,default_dataname)), norm_counts)
 
-def algorithm3(pos):
+def algorithm3(pos, speed = 1):
 
-    density, size = dens.density(pos, speed = 1)
+    density, size = dens.density(pos, s = 1)
 
     dim = np.shape(pos)[0]
     #Find the weight
@@ -98,8 +100,12 @@ def algorithm3(pos):
 #    phi = ang.findPhi(dirVector)
     print "Selecting lines..."
     lines = []
-    for i in range(len(startl)):
-        lines.append(bnd.bresenhamline(startl[i], endl[i], max_iter=-1) )
+#    for i in range(len(startl)):
+#        lines.append(bnd.bresenhamline(startl[i], endl[i], max_iter=-1))
+    lines = nbnr.lineCreation(startl,endl)
+   
+    return FFTpos, lines
+        
 #    lines -= 1
 #    return FFTposABS, lines
 #
@@ -116,7 +122,8 @@ def algorithm3(pos):
 #            for k in range(len(lines[i][j])):
 ###                fftLines.append(FFTposABS[k,line[k]])
 #                x.append(lines[i][j][k])
-            fftLines.append(FFTpos[lines[i][j][0],lines[i][j][1],lines[i][j][2]])
+            fftLines.append(FFTpos[lines[i,j,0],lines[i,j,1],lines[i,j,2]])
+#            fftLines.append(FFTpos[lines[i][j][0],lines[i][j][1],lines[i][j][2]])
 #            fftLines.append(FFTposABS[lines[i][j][0],lines[i][j][1],lines[i][j][2]])
 #            fftLines.append(FFTposABS[lines[i][j]])
 

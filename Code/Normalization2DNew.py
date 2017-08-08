@@ -61,7 +61,7 @@ def normalizeLine(normArray, valuesArray, lineFactor):
         value = valuesArray[i]
         norm = normArray[i]
 #        normedValue = (value/norm)/lineFactor
-        normedValue = (value*norm)/lineFactor
+        normedValue = value*(norm/lineFactor)
         normalizedLine.append(normedValue)
     
     

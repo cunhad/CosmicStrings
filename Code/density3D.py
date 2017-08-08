@@ -37,17 +37,17 @@ def buffer_adjust(pos, nbCells):
     return pos
 
 #nbCells is determined before the simulation
-def density(pos, cellSize = 2.0, speed = 1, nbCells = 192):
+def density(pos, cellSize = 2.0, s = 1, nbCells = 192):
     
     xpos = buffer_adjust(pos[0,:], nbCells)
     ypos = buffer_adjust(pos[1,:], nbCells)
     zpos = buffer_adjust(pos[2,:], nbCells)
 
     #For testing purposes --> reduces the amount of data
-    if speed > 1:
-        xpos = xpos[0::speed]
-        ypos = ypos[0::speed]
-        zpos = zpos[0::speed]
+    if s > 1:
+        xpos = xpos[0::s]
+        ypos = ypos[0::s]
+        zpos = zpos[0::s]
     
     print ("Defining limits...")    
     #Brings the positions to start from (0,0,0)

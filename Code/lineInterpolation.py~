@@ -56,8 +56,6 @@ def xArray(start, end, length, nbSteps):
 
 #Find the y slope of the line (vs x)
 def ySlope(start, end):
-    #did you know: this script was originally named
-    #newBresenham_not_really.py !
     my = 0
     slopeYArray = []
     for i in range(len(start)):

@@ -28,19 +28,19 @@ def lineParse(cubeLen):
     for i in range(cubeLen):
         for j in range(cubeLen):
                 start = [i,j,0]
-                end = [cubeLen-i, cubeLen-j, cubeLen]
+                end = [cubeLen-i-1, cubeLen-j-1, cubeLen-1]
                 startArr.append(start)
                 endArr.append(end)
     for i in range(cubeLen):
         for j in range(cubeLen):
                 start = [i,0,j]
-                end = [cubeLen-i, cubeLen, cubeLen-j]
+                end = [cubeLen-i-1, cubeLen-1, cubeLen-j-1]
                 startArr.append(start)
                 endArr.append(end)
     for i in range(cubeLen):
         for j in range(cubeLen):
                 start = [0,i,j]
-                end = [cubeLen, cubeLen-i, cubeLen-j]
+                end = [cubeLen-1, cubeLen-i-1, cubeLen-j-1]
                 startArr.append(start)
                 endArr.append(end)
     return startArr, endArr

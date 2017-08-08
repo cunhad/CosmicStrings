@@ -6,22 +6,14 @@ Created on Fri Jun  9 19:25:14 2017
 """
 
 
-#import graph_data as data
-import numpy as np
-import matplotlib.pyplot as plt
-#from mpl_toolkits.mplot3d import Axes3D
-import bresenhamND as bnd
-#import angles as ang
-import normalization_array as na
-#import Normalization_Test as normal
+#import matplotlib.pyplot as plt
 #import peakdetection as pd
-#import density as den
+import numpy as np
 import pywt
-import Normalization2DNew as norm
 import density3D as dens
 import cube
-import newBresenham_not_really as nbnr
-
+import BrutForceNorm as bnorm
+import lineInterpolation as line
 
 #Data acquisition
 default_dataname = "pos(1)"
@@ -45,99 +37,90 @@ pos[1,:] = ypos[:]
 pos[2,:] = zpos[:]
 print "Done!"
 
-#
-##For looping purposes
-#coordinates = ["X","Y","Z"]
-#
-#for k in range(3):
-#  cell_size = 2.0
-#  max_x = np.max(xpos)
-#  cells = max_x/cell_size
-#
-#  print "Counting densities..."
-#  #This only works for 2D
-#  plt.figure(1)
-#  counts, xedges, yedges, Image = plt.hist2d(pos[k], pos[(k+1)%3], (cells,cells), cmap=plt.cm.jet)
-#  plt.close(1)
-#  print "Done!"
-#
-#  counts = np.transpose(counts)#This is only so that the graph comes out ok
-#
-#  norm_counts = (counts-np.mean(counts))/np.mean(counts)#Fluctuations
-#  #Saves fluctuation files
-#  np.save(('../Data/norm_counts%d_%s.npy' %(k,default_dataname)), norm_counts)
-
-def algorithm3(pos, speed = 1):
+def algorithm3(pos):
 
     density, size = dens.density(pos, s = 1)
 
-    dim = np.shape(pos)[0]
-    #Find the weight
-#    size = 120
-    print ("Computing weighted cube...")
-    weightedCube = na.twins3d(na.octant_assignment(size))
-    print "Done!"
-
     print "Computing 3D FFT..."
-    FFTpos = np.fft.fftn(density)
-#    print len(FFTpos)
-#    FFTposABS = np.hypot(np.real(FFTpos),np.imag(FFTpos))
-#    print np.shape(FFTposABS)
-#    print len(FFTposABS)
+    FFTdensity = np.fft.fftn(density)
     print "Done!"
-
+    
     startl, endl = cube.lineParse(size)
 
-#    startl = np.load('../Data/startEndPts.npz')['startArr']
-#    endl = np.load('../Data/startEndPts.npz')['endArr']
-
-    #Still good: DO NOT ERASE
-    #Finding the lines associated with the bresenham lines
-#    newStart = ang.startf(start2D)
-#    newEnd = ang.endf(end2D)
-#    dirVector = ang.dirVector(newStart, newEnd)
-#    theta = ang.findTheta(dirVector)
-#    phi = ang.findPhi(dirVector)
     print "Selecting lines..."
-    lines = []
-#    for i in range(len(startl)):
-#        lines.append(bnd.bresenhamline(startl[i], endl[i], max_iter=-1))
-    lines = nbnr.lineCreation(startl,endl)
-   
-    return FFTpos, lines
-        
-#    lines -= 1
-#    return FFTposABS, lines
-#
-#
-#
-#
-    #Apply inverse 1D FFT for each line
-#    fftLines = np.zeros((len(startl),3))
+    lines = line.lineCreation(startl,endl)
+    
     fftLines = []
-#    print np.shape(FFTposABS)
     for i in range(len(lines)):
-        for j in range(len(lines[i])):
-#            x = []
-#            for k in range(len(lines[i][j])):
-###                fftLines.append(FFTposABS[k,line[k]])
-#                x.append(lines[i][j][k])
-            fftLines.append(FFTpos[lines[i,j,0],lines[i,j,1],lines[i,j,2]])
-#            fftLines.append(FFTpos[lines[i][j][0],lines[i][j][1],lines[i][j][2]])
-#            fftLines.append(FFTposABS[lines[i][j][0],lines[i][j][1],lines[i][j][2]])
-#            fftLines.append(FFTposABS[lines[i][j]])
+        for j in range(len(lines[0][0])):
+            fftLines.append(FFTdensity[lines[i][0][j],lines[i][1][j],lines[i][2][j]])
 
-#    print lines[i][j]
+    print "Done!"
 
-#    return fftLines
+    fftLines = np.reshape(fftLines, (np.shape(lines)[0], np.shape(lines)[2]))
+    
+    #Apply inverse 1D FFT for each line
+    ifftLines = np.hypot(np.real(np.fft.ifft(fftLines)), np.imag(np.fft.ifft(fftLines)))
+    
+    #Density contrast    
+    for i in range(len(ifftLines)):
+        ifftLines[i] = (ifftLines[i]-np.mean(ifftLines[i]))/np.mean(ifftLines[i])
+
+#    print "Normalization of dataset..."
+#    #Need normalization later
+#    start, end = bnorm.formatting(startl, endl)
+#    cCube, cStart, cEnd = bnorm.center(start, end, size)
+#    normFactors = []
+#    lengths = []
+#    count = 0
+#    for i in range(len(cStart)):
+#        factor, length = bnorm.normalize(cStart[i], cEnd[i], cCube, 96, i)
+#        normFactors.append(factor)
+#        lengths.append(length)
+#        count += 1
+#        print ("Line %s" %count)
+#    
+#    
+#    normalizedLines = []
+#    for i in range(len(ifftLines)):
+#        normalizedLine = ifftLines[i]/normFactors[i]
+#        normalizedLines.append(normalizedLine)
+#    
+#    print "Done!"
+        
+    cA = []
+    cD = []
+
+    print "Wavelet Transform..."
+    # Appply 1D Wavelet to find coefficients
+    for i in range(len(ifftLines)):
+        cA.append(pywt.dwt(ifftLines[i], 'haar')[0])
+        cD.append(pywt.dwt(ifftLines[i], 'haar')[1])
+#        cA.append(pywt.dwt(normalizedLines[i], 'haar')[0])
+#        cD.append(pywt.dwt(normalizedLines[i], 'haar')[1])
     print "Done!"
 
 
-    fftLines = np.reshape(fftLines, (len(lines), size))
+    return cA, cD
+    
+cA, cD = algorithm3(pos)
+#
+#for i in range(len(cA)):
+#    cA[i] = cA[i][10:40]
+#
+#cA = cA[25::50]
+#
+#max_cA = np.max(cA)
+#print max_cA
+#
+#plt.figure()
+#for i in range(len(cA)):
+#    plt.plot(np.linspace(0,96,len(cA[i])), cA[i])
+#    plt.pause(0.0005)
 
-    ifftLines = np.hypot(np.real(np.fft.ifft(fftLines)), np.imag(np.fft.ifft(fftLines)))
 
-    print "Normalization of dataset..."
+############old bits of code#############
+    """
     pointNormalization = []
     lineNormalization = 0
     totalNormalization = []
@@ -146,10 +129,8 @@ def algorithm3(pos, speed = 1):
         pointNormalization = norm.pointNorm(weightedCube, lines[i], dim)
         lineNormalization = norm.lineNorm(pointNormalization)
         totalNormalization.append(norm.normalizeLine(pointNormalization, ifftLines[i], lineNormalization))
-    #density, size  = density(pos, speed = 10)
-    print "Done!"
-##print size
-#
+    """
+    
 ##Cutoff value
 #cutoff = 2
 #for i in range(np.shape(density)[0]):
@@ -177,62 +158,3 @@ def algorithm3(pos, speed = 1):
 #    cax.set_frame_on(False)
 #    plt.colorbar(orientation='vertical')
 #        return
-
-    cA = []
-    cD = []
-
-    print "Wavelet Transform..."
-    # Appply 1D Wavelet to find coefficients
-    for i in range(len(ifftLines)):
-#        cA.append(pywt.dwt(ifftLines[i], 'haar')[0])
-#        cD.append(pywt.dwt(ifftLines[i], 'haar')[1])
-        cA.append(pywt.dwt(totalNormalization[i], 'haar')[0])
-        cD.append(pywt.dwt(totalNormalization[i], 'haar')[1])
-    print "Done!"
-
-
-    return cA, cD
-#
-#
-#lines, FFTposABS, fftLines, totalNormalization, coeffs,ifftLines = algorithm3(pos)
-##print(totalNormalization)
-#print np.shape(coeffs)
-
-cA, cD = algorithm3(pos)
-
-np.savez("../Data/testCoefficients.npz", cA=cA, cD=cD)
-
-#for i in range(len(cA)):
-#    cA[i] = cA[i][10:40]
-
-#cA = cA[0::50]
-
-#max_cA = np.max(cA)
-#print max_cA
-#
-#plt.figure()
-#for i in range(len(cA)):
-#    plt.plot(np.linspace(0,96,len(cA[i])), cA[i])
-#    plt.pause(0.0005)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#r, theta, phi = algorithm3(pos)

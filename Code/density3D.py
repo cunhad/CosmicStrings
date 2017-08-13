@@ -51,7 +51,7 @@ def density(pos, cellSize = 2.0, s = 1, nbCells = 192):
     
     print ("Defining limits...")    
     #Brings the positions to start from (0,0,0)
-    print np.int(np.max((np.max(xpos),np.max(ypos),np.max(zpos))))
+#    print np.int(np.max((np.max(xpos),np.max(ypos),np.max(zpos))))
     
 #    xMin = np.min(xpos)
 #    yMin = np.min(ypos)
@@ -65,7 +65,7 @@ def density(pos, cellSize = 2.0, s = 1, nbCells = 192):
 #    xSize = np.int(np.ceil(np.max(xpos)/cellSize))
 #    ySize = np.int(np.ceil(np.max(ypos)/cellSize))
 #    zSize = np.int(np.ceil(np.max(zpos)/cellSize))
-    print np.int(np.max((np.max(xpos),np.max(ypos),np.max(zpos))))
+#    print np.int(np.max((np.max(xpos),np.max(ypos),np.max(zpos))))
 #    size = np.ceil(np.max((np.max(xpos),np.max(ypos),np.max(zpos))))/cellSize#+1
     size = np.int(np.ceil(nbCells/cellSize))
     
@@ -78,8 +78,8 @@ def density(pos, cellSize = 2.0, s = 1, nbCells = 192):
     print ("Counting densities...")
     for i in range(len(xpos)):
         #This shows the percentage of data counted
-        if i%1000 == 0:
-            print "{0:2.0f}%".format(np.float(i)/len(xpos) * 100)
+#        if i%1000 == 0:
+#            print "{0:2.0f}%".format(np.float(i)/len(xpos) * 100)
         #This takes the coordinates --> which cell to count it into
         x = np.floor(xpos[i]/cellSize)
         x = np.int(x)

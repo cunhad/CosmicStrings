@@ -58,69 +58,89 @@ def xArray(start, end, length, nbSteps):
 def ySlope(start, end):
     #did you know: this script was originally named
     #newBresenham_not_really.py !
-    my = 0
-    slopeYArray = []
+    m = 0
+    slope = []
     for i in range(len(start)):
         if not end[i][0] == start[i][0]:
-            my = np.divide(end[i][1] - start[i][1], end[i][0] - start[i][0], dtype=np.float)
+            m = np.divide(end[i][1] - start[i][1], end[i][0] - start[i][0], dtype=np.float)
         else:
-            my = np.nan
-        slopeYArray.append(my)
+            m = np.nan
+        slope.append(m)
 
-    return slopeYArray
+    return slope
 
 #Find the z slope of the line (vs x)
 def zSlope(start, end):
-    mz = 0
-    slopeZArray = []
+    m = 0
+    slope = []
     for i in range(len(start)):
         if not end[i][0] == start[i][0]:
-            mz = np.divide(end[i][2] - start[i][2], end[i][0] - start[i][0], dtype=np.float)
+            m = np.divide(end[i][2] - start[i][2], end[i][0] - start[i][0], dtype=np.float)
         else:
-            mz = np.nan
-        slopeZArray.append(mz)
+            m = np.nan
+        slope.append(m)
 
-    return slopeZArray
+    return slope
 
 #Find the points on the y axis corresponding to the x point
-def yArray(xIncrements, start, ySlope, nbSteps):
-    yArray = np.zeros((len(start),nbSteps), dtype = np.int)
+def yArray(increments, start, slope, nbSteps):
+    array = np.zeros((len(start),nbSteps), dtype = np.int)
     for i in range(len(start)):
         for j in range(nbSteps):
-            if ySlope[i] is not np.nan:
-                yArray[i, j] = np.rint((xIncrements[i, j]-start[i][0])*ySlope[i] + start[i][1])
+            if slope[i] is not np.nan:
+                array[i, j] = np.rint((increments[i, j]-start[i][0])*slope[i] + start[i][1])
             else:
-                yArray[i, j] = np.rint((xIncrements[i, j]-start[i][0])*i + start[i][1])
+                array[i, j] = np.rint((increments[i, j]-start[i][0])*i + start[i][1])
 
-    return yArray
+    return array
+
+def yArray_mp(increments, start, slope, nbSteps, lineNumber):
+    array = np.zeros((nbSteps,1), dtype = np.int)
+    for i in range(nbSteps):
+        if slope is not np.nan:
+            array[i] = np.rint((increments[i]-start[0])*slope + start[1])
+        else:
+            array[i] = np.rint((increments[i]-start[0])*lineNumber + start[1])
+        
+    return array
 
 #Find the points on the z axis corresponding to the x point
-def zArray(xIncrements, start, zSlope, nbSteps):
-    zArray = np.zeros((len(start),nbSteps), dtype = np.int)
+def zArray(increments, start, slope, nbSteps):
+    array = np.zeros((len(start),nbSteps), dtype = np.int)
 #    zArray = np.zeros((nbCells, nbSteps), dtype = np.float)
     for i in range(len(start)):
         for j in range(nbSteps):
-            if zSlope[i] is not np.nan:
-                zArray[i, j] = np.rint((xIncrements[i, j]-start[i][0])*zSlope[i] + start[i][2])
+            if slope[i] is not np.nan:
+                array[i, j] = np.rint((increments[i, j]-start[i][0])*slope[i] + start[i][2])
             else:
-                zArray[i, j] = np.rint((xIncrements[i, j]-start[i][0])*i + start[i][2])
+                array[i, j] = np.rint((increments[i, j]-start[i][0])*i + start[i][2])
 
-    return zArray
+    return array
+    
+def zArray_mp(increments, start, slope, nbSteps, lineNumber):
+    array = np.zeros((nbSteps,1), dtype = np.int)
+    for i in range(nbSteps):
+        if slope is not np.nan:
+            array[i] = np.rint((increments[i]-start[0])*slope + start[1])
+        else:
+            array[i] = np.rint((increments[i]-start[0])*lineNumber + start[1])
+            
+    return array
 
 def lineCreation(start, end):
-    print "Length..."
+#    print "Length..."
     nbSteps = findSteps(start)
     length = lineLen(start,end)
-    print "X array..."    
+#    print "X array..."    
     arrayx = xArray(start,end,length, nbSteps)
-    print "Slopes..."    
+#    print "Slopes..."    
     slopey = ySlope(start, end)
     slopez = zSlope(start, end)
-    print "Y array..."
+#    print "Y array..."
     arrayy = yArray(arrayx, start, slopey, nbSteps)
-    print "Z array..."
+#    print "Z array..."
     arrayz = zArray(arrayx, start, slopez, nbSteps)
-    print "Making lines..."
+#    print "Making lines..."
 #    lines = np.array([arrayx[:],arrayy[:],arrayz[:]])
     lines = []
     for i in range(len(arrayx)):
@@ -132,7 +152,35 @@ def lineCreation(start, end):
 
     return lines#, arrayx, arrayy, arrayz, slopey, slopez, length
 
-
+def initLineCreation_mp(start, end):
+    print "Steps..."
+    nbSteps = findSteps(start)
+    length = lineLen(start,end)
+    print "X array..."    
+    x = xArray(start,end,length, nbSteps)
+    print "Slopes..."    
+    my = ySlope(start, end)
+    mz = zSlope(start, end)
+    
+    return nbSteps, x, my, mz
+    
+def lineCreation_mp(nbSteps, start, x, slopey, slopez, lineNumber):
+#    print "Y Array..."
+    arrayy = yArray_mp(x, start, slopey, nbSteps, lineNumber)
+#    print "Z Array..."    
+    arrayz = zArray_mp(x, start, slopez, nbSteps, lineNumber)
+    
+    return arrayy, arrayz
+    
+def multiprocessLine(nbSteps, start, x, my, mz, lineNumber):
+    y,z = lineCreation_mp(nbSteps, start, x, my, mz, lineNumber)
+    
+    lines = []
+    for i in range(len(x)):
+        lines.append(np.array([x[i],y[i], z[i]]))
+    
+    return lines
+    
 #lines = lineCreation(start,end)
 #lines, arrayx, arrayy, arrayz, slopey, slopez, length = lineCreation(start,end)
 #print np.shape(lines)

@@ -145,7 +145,7 @@ def width_det(data, max_found):
 #ydata += signal.gaussian(data_lenght, std=5)
 #xdata = np.arange(0,data_lenght)
             
-ydata = np.load("../Data/compressed1DlinearCounts2_InitialTry.npy")
+#ydata = np.load("../Data/compressed1DlinearCounts2_InitialTry.npy")
 
 #Testing
 #max_found, D = detect_peak(ydata,4)

@@ -4,7 +4,7 @@ Created on Tue Jun 20 12:13:11 2017
 
 @author: felix
 """
-#from scipy import signal
+from scipy import signal
 import numpy as np
 import pywt 
 import matplotlib.pyplot as plt
@@ -31,13 +31,11 @@ def multilevel_wavelet(data, level, An = [], Dn = []):
 #Checks for zero crossing on selected data and creates
 #an array with all appropriate indices (i+1).
 def zero_crossing(data,level):
-    print "%1.6f" %t.time()
     crossings = []
     std_away = 2
     std = np.std(data)
     mean = np.mean(data)
     dev = mean + std_away*std
-    print "%1.6f" %t.time()
     for i in range(len(data)-1):
         #This checks for 3 sigmas significance
             #There are 2 cases for zero crossing
@@ -95,7 +93,7 @@ def detect_peak(data, level = -1, current_index = 0):
     zeros = []
     #Finds all zeros
     for i in range(len(D)):
-        zeros.append(zero_crossings(D[i],i+1))
+        zeros.append(zero_crossing(D[i],i+1))
     #Last zero crossings correspond to local maxima
     max_found = zeros[len(zeros)-1]
     for i in range(len(zeros)):

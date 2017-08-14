@@ -32,6 +32,7 @@ def preCut(data):
             if np.abs(i)>=dev:
                 preCutLines.append(data[line])
                 break
+    np.save("../TestData/preCutLines.npy", preCutLines)
     return preCutLines
     
 def peakDetection(lines):
@@ -39,7 +40,9 @@ def peakDetection(lines):
     for line in range(len(lines)):
         if line%50 == 0:
             print "{0:2.0f}%".format(np.float(line)/np.float(len(lines)) * 100)
-        results.append(pd.find_max_width(lines[line]))        
+        temp = pd.find_max_width(lines[line])
+        if len(temp) != 0:
+            results.append(temp)        
     np.save("../TestData/max_widthTest.npy", results)
     return results
     
@@ -65,7 +68,7 @@ def ask():
         simulationFile = default_name+".dat"
     return wakeDetection(simulationFile)
     
-ask()
-#lines = np.load("../TestData/linesTest.npy")
-#results = peakDetection(preCut(lines))
+#ask()
+lines = np.load("../TestData/linesTest.npy")
+results = peakDetection(preCut(lines))
     

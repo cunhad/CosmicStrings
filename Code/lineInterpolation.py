@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
 """
@@ -11,9 +12,9 @@ import numpy as np
 import cube as cb
 
 # Make new cube with octant assignment
-testSize = 20
+#testSize = 20
 #cube = na.twins3d(na.octant_assignment(testSize))
-start, end = cb.lineParse(testSize)
+#start, end = cb.lineParse(testSize)
 
 #Define useful length
 #nbCells = len(cube)
@@ -28,7 +29,6 @@ def lineLen(start, end):
     lengthArray = []
     for line in range(len(start)):
         x = end[line][0] - start[line][0]
-#        x = np.abs(end[line][0] - start[line][0])
         lengthArray.append(x)
 
     return lengthArray
@@ -40,17 +40,11 @@ def xArray(start, end, length, nbSteps):
     stepLenArray = []
 
     for line in range(len(length)):
-       # lenSteps = np.divide(length[line], nbSteps, dtype=np.float)
         lenSteps = np.divide(length[line], nbSteps, dtype=np.float)
-#        lenSteps = length[line]/nbSteps
         stepLenArray.append(lenSteps)
 
     for k in range(len(stepLenArray)):
-#        print start[k][0]
-#        print stepLenArray[k]        
         for l in range(nbSteps):
-            #stepsArray[k, l] = np.floor(start[k][0] + l*stepLenArray[k])
-
             stepsArray[k, l] = np.rint(start[k][0] + l*stepLenArray[k])
     return stepsArray
 
@@ -107,7 +101,6 @@ def yArray_mp(increments, start, slope, nbSteps, lineNumber):
 #Find the points on the z axis corresponding to the x point
 def zArray(increments, start, slope, nbSteps):
     array = np.zeros((len(start),nbSteps), dtype = np.int)
-#    zArray = np.zeros((nbCells, nbSteps), dtype = np.float)
     for i in range(len(start)):
         for j in range(nbSteps):
             if slope[i] is not np.nan:
@@ -128,28 +121,22 @@ def zArray_mp(increments, start, slope, nbSteps, lineNumber):
     return array
 
 def lineCreation(start, end):
-#    print "Length..."
+    print "--> Length..."
     nbSteps = findSteps(start)
     length = lineLen(start,end)
-#    print "X array..."    
+    print "--> X array..."    
     arrayx = xArray(start,end,length, nbSteps)
-#    print "Slopes..."    
+    print "--> Slopes..."    
     slopey = ySlope(start, end)
     slopez = zSlope(start, end)
-#    print "Y array..."
+    print "--> Y array..."
     arrayy = yArray(arrayx, start, slopey, nbSteps)
-#    print "Z array..."
+    print "--> Z array..."
     arrayz = zArray(arrayx, start, slopez, nbSteps)
-#    print "Making lines..."
-#    lines = np.array([arrayx[:],arrayy[:],arrayz[:]])
+    print "--> Making lines..."
     lines = []
     for i in range(len(arrayx)):
         lines.append(np.array([arrayx[i][:],arrayy[i][:], arrayz[i][:]]))
-#    lines = np.zeros((np.size(arrayx, axis=0), np.size(arrayx, axis=1),3), dtype=np.int)
-#    for line in range(len(arrayx)):
-#        for cell in range(len(arrayx[line])):
-#            lines[line,cell] = np.array([arrayx[line][cell],arrayy[line][cell],arrayz[line][cell]])
-
     return lines#, arrayx, arrayy, arrayz, slopey, slopez, length
 
 def initLineCreation_mp(start, end):
@@ -185,161 +172,3 @@ def multiprocessLine(nbSteps, start, x, my, mz, lineNumber):
 #lines, arrayx, arrayy, arrayz, slopey, slopez, length = lineCreation(start,end)
 #print np.shape(lines)
 #print lines
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-"""
-def normPerLine(xArray, yArray, zArrays):
-    cubeIdx = np.zeros((nbCells, nbSteps), dtype = np.float)
-    cubeIdy = np.zeros((nbCells, nbSteps), dtype = np.float)
-    cubeIdz = np.zeros((nbCells, nbSteps), dtype = np.float)
-
-    for i in range(nbSteps):
-        for j in range(nbCells):
-            for k in range(nbCells):
-                if (xArray[i][j] <= (k+1)*20) and  (xArray[i][j] >= k*20):
-                    cubeIdx[i, j] = k
-                if (yArray[i][j] <= (k+1)*20) and  (yArray[i][j] >= k*20):
-                    cubeIdy[i, j] = k
-                if (zArray[i][j] <= (k+1)*20) and  (zArray[i][j] >= k*20):
-                    cubeIdz[i, j] = k
-
-
-    coordinate = [0, 0, 0]
-    coordinateSave = [-1, -1, -1]
-    lineNorm = []
-    normFact = 0
-    for line in range(nbCells):
-        for step in range(nbSteps):
-            coordinate[0] = cubeIdx[step, line]
-            coordinate[1] = cubeIdy[step, line]
-            coordinate[2] = cubeIdz[step, line]
-
-            if (coordinate[0] != coordinateSave[0]) or (coordinate[1] != coordinateSave[1]) or (coordinate[2] != coordinateSave[2]):
-                normFact += cube[coordinate[0], coordinate[1], coordinate[2]]
-
-            for counter in range(3):
-                coordinateSave[counter] = coordinate[counter]
-
-        lineNorm.append(normFact)
-        normFact = 0
-
-    return lineNorm
-
-
-#Find the normalization factor for each distinct square the line passes through
-#We will need to divide by this number
-def normAtPoint(xArray, yArray, zArray):
-
-    cubeIdx = np.zeros((nbCells, nbSteps), dtype = np.float)
-    cubeIdy = np.zeros((nbCells, nbSteps), dtype = np.float)
-    cubeIdz = np.zeros((nbCells, nbSteps), dtype = np.float)
-
-    for i in range(nbSteps):
-        for j in range(nbCells):
-            for k in range(nbCells):
-                if (xArray[i][j] <= (k+1)*20) and  (xArray[i][j] >= k*20):
-                    cubeIdx[i, j] = k
-                if (yArray[i][j] <= (k+1)*20) and  (yArray[i][j] >= k*20):
-                    cubeIdy[i, j] = k
-                if (zArray[i][j] <= (k+1)*20) and  (zArray[i][j] >= k*20):
-                    cubeIdz[i, j] = k
-
-
-    coordinate = [0, 0, 0]
-    normPtNum = np.zeros((nbCells, nbCells), dType = float)
-    coordinateSave = [-1, -1, -1]
-    positionCounter = 0
-    for line in range(nbCells):
-        for step in range(nbSteps):
-            coordinate[0] = cubeIdx[step, line]
-            coordinate[1] = cubeIdy[step, line]
-            coordinate[2] = cubeIdz[step, line]
-
-            if (coordinate[0] != coordinateSave[0]) or (coordinate[1] != coordinateSave[1]) or (coordinate[2] != coordinateSave[2]):
-                normPtNum[positionCounter, line] = cube[coordinate[0], coordinate[1], coordinate[2]]
-                positionCounter +=1
-
-            for counter in range(3):
-                coordinateSave[counter] = coordinate[counter]
-
-
-
-    return normPtNum
-
-
-#Find the total normalization factor for each line that we will need to divide by at each point
-
-def totalNormFact(normPtNum):
-    lineNorm = []
-    normFact = 0
-
-    for line in range(nbCells):
-        for i in range(nbCells):
-            if normPtNum[i, line] != 0.0:
-                normFact += 1.0/normPtNum[i, line]
-
-        lineNorm.append(normFact)
-        normFact = 0
-
-
-    return lineNorm
-
-"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

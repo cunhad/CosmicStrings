@@ -16,53 +16,56 @@ import BrutForceNorm as bnorm
 import lineInterpolation as line
 
 #Data acquisition
-default_dataname = "pos(1)"
-dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
-if dataname == "":
-  dataname = default_dataname
-dataname = "../Data/" + dataname
-dataname +=".npz"
+#default_dataname = "pos(1)"
+#dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
+#if dataname == "":
+#  dataname = default_dataname
+#dataname = "../Data/" + dataname
+#dataname +=".npz"
+#
+#print "Loading %s..." %dataname
+#xpos = np.load(dataname)['x']
+#ypos = np.load(dataname)['y']
+#zpos = np.load(dataname)['z']
+#
+#
+#
+##Rearranges into one 2D array
+#pos = np.zeros((3,len(xpos)))
+#pos[0,:] = xpos[:]
+#pos[1,:] = ypos[:]
+#pos[2,:] = zpos[:]
+#
 
-print "Loading %s..." %dataname
-xpos = np.load(dataname)['x']
-ypos = np.load(dataname)['y']
-zpos = np.load(dataname)['z']
-
-
-
-#Rearranges into one 2D array
-pos = np.zeros((3,len(xpos)))
-pos[0,:] = xpos[:]
-pos[1,:] = ypos[:]
-pos[2,:] = zpos[:]
-print "Done!"
-
+#This algo does not return ridglet coefficients, but rather the 
+#lines that have been created before the wavelet transform should 
+#occur
 def algorithm3(pos):
 
     density, size = dens.density(pos, s = 1)
 
     print "Computing 3D FFT..."
     FFTdensity = np.fft.fftn(density)
-    print "Done!"
+    
     
     startl, endl = cube.lineParse(size)
 
-    print "Selecting lines..."
+    print "Creating lines..."
     lines = line.lineCreation(startl,endl)
     
+    print "Selecting FFT lines..."
     fftLines = []
     for i in range(len(lines)):
         for j in range(len(lines[0][0])):
             fftLines.append(FFTdensity[lines[i][0][j],lines[i][1][j],lines[i][2][j]])
-
-    print "Done!"
-
+            
     fftLines = np.reshape(fftLines, (np.shape(lines)[0], np.shape(lines)[2]))
     
     #Apply inverse 1D FFT for each line
     ifftLines = np.hypot(np.real(np.fft.ifft(fftLines)), np.imag(np.fft.ifft(fftLines)))
     
     #Density contrast    
+    print "Density contrast..."
     for i in range(len(ifftLines)):
         ifftLines[i] = (ifftLines[i]-np.mean(ifftLines[i]))/np.mean(ifftLines[i])
 
@@ -86,24 +89,26 @@ def algorithm3(pos):
 #        normalizedLine = ifftLines[i]/normFactors[i]
 #        normalizedLines.append(normalizedLine)
 #    
-#    print "Done!"
-        
-    cA = []
-    cD = []
+#    
 
-    print "Wavelet Transform..."
-    # Appply 1D Wavelet to find coefficients
-    for i in range(len(ifftLines)):
-        cA.append(pywt.dwt(ifftLines[i], 'haar')[0])
-        cD.append(pywt.dwt(ifftLines[i], 'haar')[1])
-#        cA.append(pywt.dwt(normalizedLines[i], 'haar')[0])
-#        cD.append(pywt.dwt(normalizedLines[i], 'haar')[1])
-    print "Done!"
-
-
-    return cA, cD
-    
-cA, cD = algorithm3(pos)
+    return ifftLines
+#        
+#    cA = []
+#    cD = []
+#
+#    print "Wavelet Transform..."
+#    # Appply 1D Wavelet to find coefficients
+#    for i in range(len(ifftLines)):
+#        cA.append(pywt.dwt(ifftLines[i], 'haar')[0])
+#        cD.append(pywt.dwt(ifftLines[i], 'haar')[1])
+##        cA.append(pywt.dwt(normalizedLines[i], 'haar')[0])
+##        cD.append(pywt.dwt(normalizedLines[i], 'haar')[1])
+#    
+#
+#
+#    return cA, cD
+#    
+#cA, cD = algorithm3(pos)
 #
 #for i in range(len(cA)):
 #    cA[i] = cA[i][10:40]

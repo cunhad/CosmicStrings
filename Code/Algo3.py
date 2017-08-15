@@ -14,7 +14,7 @@ import density3D as dens
 import cube
 import BrutForceNorm as bnorm
 import lineInterpolation as line
-
+"""
 #Data acquisition
 default_dataname = "pos(1)"
 dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
@@ -35,7 +35,7 @@ pos = np.zeros((3,len(xpos)))
 pos[0,:] = xpos[:]
 pos[1,:] = ypos[:]
 pos[2,:] = zpos[:]
-
+"""
 
 #This algo does not return ridglet coefficients, but rather the 
 #lines that have been created before the wavelet transform should 

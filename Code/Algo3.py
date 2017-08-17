@@ -9,7 +9,7 @@ Created on Fri Jun  9 19:25:14 2017
 #import matplotlib.pyplot as plt
 #import peakdetection as pd
 import numpy as np
-import pywt
+#import pywt
 import density3D as dens
 import cube
 import BrutForceNorm as bnorm
@@ -35,8 +35,8 @@ pos = np.zeros((3,len(xpos)))
 pos[0,:] = xpos[:]
 pos[1,:] = ypos[:]
 pos[2,:] = zpos[:]
-"""
 
+"""
 #This algo does not return ridglet coefficients, but rather the 
 #lines that have been created before the wavelet transform should 
 #occur
@@ -74,10 +74,10 @@ def algorithm3(pos):
     normFactors, lengths = bnorm.finalNormalization(xArray, yArray, zArray, size, startl, endl)   
     print (np.shape(normFactors))
     ifftLinesN = normFactors
-    #for i in range(len(ifftLines)):
-        #for j in range(len(ifftLines[0])):
-    for i in range(10):
-        for j in range(10):
+    for i in range(len(ifftLines)):
+        for j in range(len(ifftLines[0])):
+    #for i in range(10):
+        #for j in range(10):
             ifftLinesN[i][j] = ifftLines[i][j]/normFactors[i][j]
             
             
@@ -87,4 +87,4 @@ def algorithm3(pos):
     return ifftLinesN
 
 
-ifftLines = algorithm3(pos)
+#ifftLines = algorithm3(pos)

@@ -7,10 +7,39 @@ Created on Tue Aug  1 15:40:12 2017
 """
 
 import numpy as np
-import cube
-import density3D as dens
+#import cube
+#import density3D as dens
 import math
+
+
 """
+#Data acquisition
+default_dataname = "pos(1)"
+dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
+if dataname == "":
+  dataname = default_dataname
+dataname = "../Data/" + dataname
+dataname +=".npz"
+
+print "Loading %s..." %dataname
+xpos = np.load(dataname)['x']
+ypos = np.load(dataname)['y']
+zpos = np.load(dataname)['z']
+
+
+
+#Rearranges into one 2D array
+pos = np.zeros((3,len(xpos)))
+pos[0,:] = xpos[:]
+pos[1,:] = ypos[:]
+pos[2,:] = zpos[:]
+print "Done!"
+
+density, size = dens.density(pos, speed = 1)
+startl, endl = cube.lineParse(size)
+
+
+
 numPoints = 93
 """
 
@@ -97,7 +126,7 @@ def normalize(completeArray, start, end, centeredCube, size, index):
     
     
     #for k in range(27648):
-    for k in range(10):
+    for k in range(27648):
         for j in range(884736):
             array = []
             array.append(newCube[0, j])
@@ -112,8 +141,8 @@ def normalize(completeArray, start, end, centeredCube, size, index):
     y = end[1] - start[1]
     z = end[2] - start[2]
 
-    phi = math.atan2(y, x)
-    theta = math.acos(z/(math.sqrt(x**2 + y**2 + z**2)))
+    phi = -1*math.atan2(y, x)
+    theta =-1* math.acos(z/(math.sqrt(x**2 + y**2 + z**2)))
         
         
         
@@ -138,10 +167,12 @@ def normalize(completeArray, start, end, centeredCube, size, index):
     for j in range(len(zArray)):
         zArray[j] = zArray[j] + abs(negativeMin)
 
-    #Need to fix from here on out
     lowerBound = []
     upperBound = []
-    length = np.max(zArray)
+    length = np.max(zArray)/size
+    
+    for j in range(len(zArray)):
+        zArray[j] = zArray[j]/length
     
     for j in range(len(zArray)):
         number = zArray[j]
@@ -154,8 +185,8 @@ def normalize(completeArray, start, end, centeredCube, size, index):
 
     for k in range(len(upperBound)):
         counter = 0
-        #for i in range(884736):
-        for i in range(10):
+        for i in range(len(zArray)): 
+        #for i in range(10):
             if rotated[2, i] < upperBound[k] and zArray[i] >= lowerBound[k]:
                 counter += 1
                 
@@ -168,17 +199,49 @@ def normalize(completeArray, start, end, centeredCube, size, index):
 
 def finalNormalization(xArray, yArray, zArray, size, startl, endl):
     
-    print ("reshape")
     newArray = reshape(xArray, yArray, zArray, size)
-    print ("center")
     cCube, cStart, cEnd, completeArray = center(startl, endl, newArray, size)
     normFactors = []
     lengths = []
     count = 0
-    for i in range(10):
+    for i in range(len(completeArray)):
         factor, length = normalize(completeArray[i], cStart[i], cEnd[i], cCube, size, i)
         normFactors.append(factor)
         lengths.append(length)
         count += 1
         print ("Line %s" %count)
     return normFactors, lengths
+
+"""
+start, end = formatting(startl, endl)
+
+
+centeredCube, centeredStart, centeredEnd = center(start, end, 96)
+
+normFactors = []
+
+count = 0
+#for i in range(len(centeredStart)):
+for i in range(10):
+    factor, length = normalize(centeredStart[i], centeredEnd[i], centeredCube, 96, i)
+    normFactors.append(factor)
+    count += 1
+    print ("Line %s" %count)
+
+
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

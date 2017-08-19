@@ -7,8 +7,8 @@ Created on Tue Aug  1 15:40:12 2017
 """
 
 import numpy as np
-import cube
-import density3D as dens
+#import cube
+#import density3D as dens
 import math
 
 
@@ -44,24 +44,39 @@ numPoints = 93
 """
 
 
-def formatting(startl, endl):
-
+def formatting(startArray, endArray):
     
-    start = np.zeros((27648, 3), dtype = int)
+    startPoints = np.zeros((27648, 3), dtype = int)
     for i in range(27648):
         for j in range(3):
-            start[i, j] = int(startl[i][0][j])
+            startPoints[i, j] = startArray[i][0][j]
             
-    end = np.zeros((27648, 3), dtype = int)
+    endPoints = np.zeros((27648, 3), dtype = int)
             
     for i in range(27648):
         for j in range(3):
-            end[i, j] = int(endl[i][0][j])
+            endPoints[i, j] = endArray[i][0][j]
             
-    return start, end
+    return startPoints, endPoints
+
+def reshape(xArray, yArray, zArray, size):
+
+    nbSteps = 2*(size)
+    completeArray = np.zeros((192, 27648, 3), dtype = int)
+    for i in range(192):
+        for j in range(nbSteps):
+            tempx = xArray[i, j]
+            tempy = yArray[i, j]
+            tempz = zArray[i, j]
+            completeArray[i, j, 0] = tempx
+            completeArray[i, j, 1] = tempy
+            completeArray[i, j, 2] = tempz
+    
+    return completeArray
 
 
-def center(start, end, size):
+def center(start, end, completeArray, size):
+
     myCube = []
     
     for i in range(size):
@@ -73,6 +88,8 @@ def center(start, end, size):
         half = size/2
     else: 
         half = size/2 - 0.5
+    
+        
 
     
     for i in range(len(myCube)):
@@ -80,88 +97,120 @@ def center(start, end, size):
         myCube[i][1] = myCube[i][1] - half
         myCube[i][2] = myCube[i][2] - half
     
+    for i in range (192):
+        for j in range (27648):
+            completeArray[i, j, 0] = completeArray[i, j, 0] - half
+            completeArray[i, j, 1] = completeArray[i, j, 1] - half
+            completeArray[i, j, 2] = completeArray[i, j, 2] - half
+    
     for i in range(len(start)):
-        start[i, 0] = start[i, 0] - half 
-        start[i, 1] = start[i, 1] - half 
-        start[i, 2] = start[i, 2] - half 
-        end[i, 0] = end[i, 0] - half
-        end[i, 1] = end[i, 1] - half
-        end[i, 2] = end[i, 2] - half
+        start[i][0] = start[i][0] - half 
+        start[i][1] = start[i][1] - half 
+        start[i][2] = start[i][2] - half 
+        end[i][0] = end[i][0] - half
+        end[i][1] = end[i][1] - half
+        end[i][2] = end[i][2] - half
     
-    return myCube, start, end
+
+    return myCube, start, end, completeArray
 
 
 
-#Do this for each line
-def normalize(startPoint, endPoint, centeredCube, size, index):
-    """
-    vector = []
-    
-    for i in range(3):
-        vector.append((endPoint[i] - startPoint[i])/2)
-    
-    phi1 = math.atan2(vector[1], vector[0])
-    theta1 = math.acos(vector[2]/(math.sqrt(vector[0]**2 + vector[1]**2 + vector[2]**2)))
-    """
-    
+
+#Do this for each point in each line
+def normalize(completeArray, start, end, centeredCube, size, index):
+
     newCube = np.transpose(centeredCube)
-    endPoint = np.transpose(endPoint)
 
-    position = -1
+    position = []
     
-    for i in range(884736):
-        array = []
-        array.append(newCube[0, i])
-        array.append(newCube[1, i])
-        array.append(newCube[2, i])
+    
+    #for k in range(27648):
+    for k in range(27648):
+        for j in range(884736):
+            array = []
+            array.append(newCube[0, j])
+            array.append(newCube[1, j])
+            array.append(newCube[2, j])
         
-        if np.array_equal(endPoint, array) == True :
-            position = i
-    
-    
-    phi = math.atan2(endPoint[1], endPoint[0])
-    theta = math.acos(endPoint[2]/(math.sqrt(endPoint[0]**2 + endPoint[1]**2 + endPoint[2]**2)))
-    
+            if np.array_equal(completeArray[k], array) == True :
+                position.append(j)
+                break;
 
+    x = end[0] - start[0]
+    y = end[1] - start[1]
+    z = end[2] - start[2]
+
+    phi = -1*math.atan2(y, x)
+    theta =-1* math.acos(z/(math.sqrt(x**2 + y**2 + z**2)))
+        
+        
+        
+    completeArray = np.transpose(completeArray)
+    
+    
     Rphi = [[math.cos(phi), - math.sin(phi), 0], [math.sin(phi), math.cos(phi), 0], [0, 0, 1]]
     Rtheta = [[1, 0, 0], [0, math.cos(theta), - math.sin(theta)], [0, math.sin(theta), math.cos(theta)]]
 
-    
+    completeArray = np.transpose(completeArray)
     matrix = np.dot(Rphi, newCube, out = None)
     rotated = np.dot(Rtheta, matrix, out = None)
-
-    """    
-    vect = np.dot(Rphi, endPoint, out = None)
-    rotatedVect = np.dot(Rtheta, vect, out = None)
-    """
     
+
     zArray = []
-    for i in range(len(rotated[0])):
-        zArray.append(rotated[2, i])
+    for j in range(len(position)):
+        zArray.append(rotated[2, position[j]])
+
     
     negativeMin = np.min(zArray)
     
-    for i in range(len(zArray)):
-        zArray[i] = zArray[i] + abs(negativeMin)
+    for j in range(len(zArray)):
+        zArray[j] = zArray[j] + abs(negativeMin)
+
+    lowerBound = []
+    upperBound = []
+    length = np.max(zArray)/size
+    
+    for j in range(len(zArray)):
+        zArray[j] = zArray[j]/length
+    
+    for j in range(len(zArray)):
+        number = zArray[j]
+
+        lowerBound.append(math.floor(number))
+        upperBound.append(math.ceil(number))
 
     
-    length = np.max(zArray)
-    
-    lowerBound = math.floor(zArray[position])
-    upperBound = math.ceil(zArray[position])
+    nbCells = []
+
+    for k in range(len(upperBound)):
+        counter = 0
+        for i in range(len(zArray)): 
+        #for i in range(10):
+            if rotated[2, i] < upperBound[k] and zArray[i] >= lowerBound[k]:
+                counter += 1
+                
+        nbCells.append(counter)
 
     
-    counter = 0
-    
-    for i in range(len(zArray)):
-        if zArray[i] < upperBound and zArray[i] >= lowerBound:
-            counter += 1
-        else: 
-            continue
-    
-    return counter, length
+    return nbCells, length
 
 
+
+def finalNormalization(xArray, yArray, zArray, size, startl, endl):
+    
+    newArray = reshape(xArray, yArray, zArray, size)
+    cCube, cStart, cEnd, completeArray = center(startl, endl, newArray, size)
+    normFactors = []
+    lengths = []
+    count = 0
+    for i in range(len(completeArray)):
+        factor, length = normalize(completeArray[i], cStart[i], cEnd[i], cCube, size, i)
+        normFactors.append(factor)
+        lengths.append(length)
+        count += 1
+        print ("Line %s" %count)
+    return normFactors, lengths
 
 """
 start, end = formatting(startl, endl)

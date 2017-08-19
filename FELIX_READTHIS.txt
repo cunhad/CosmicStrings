@@ -1,0 +1,3 @@
+Yo, le probleme est surment ds la facon dont les arrays sont crees a la fin parce que les peak apparaissent toujours a 5 au lieu d<autre chose... Il faudrait voir les constructors and shit
+
+

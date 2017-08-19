@@ -148,7 +148,7 @@ def accuracy_det(data, level = -1, repetitions = 100):
 #Determine the Full Width Half Maximum of the data
 #according the found maxima. 
 def width_det(data, max_found):
-    fwhm = []
+    fwhm = []#linesTest
     for i in max_found:
         fwhm.append(find_nearest(data[:i], data[i]/2., ret='index'))
         fwhm.append(find_nearest(data[i:], data[i]/2., ret='index')+i)
@@ -172,11 +172,12 @@ def find_max_width(data, level = -1):
 #ydata += signal.gaussian(data_lenght, std=5)
 #xdata = np.arange(0,data_lenght)
             
-#ydata = np.load("../Data/compressed1DlinearCounts2_InitialTry.npy")
+ydata = np.load("../Data/compressed1DlinearCounts2_InitialTry.npy")
 
 #Testing
-#max_found, D = detect_peak(ydata,4)
-#plotting(ydata,D, max_found)
+max_found, D = detect_peak(ydata,4)
+results = find_max_width(ydata, level = 3)
+plotting(ydata,D, max_found)
 #widths = width_det(ydata, max_found)
 #print widths
 #

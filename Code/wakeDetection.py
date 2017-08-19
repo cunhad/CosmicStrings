@@ -38,11 +38,11 @@ def preCut(data):
 def peakDetection(lines):
     results = []
     for line in range(len(lines)):
-        if line%50 == 0:
-            print "{0:2.0f}%".format(np.float(line)/np.float(len(lines)) * 100)
+#        if line%50 == 0:
+#            print "{0:2.0f}%".format(np.float(line)/np.float(len(lines)) * 100)
         temp = pd.find_max_width(lines[line])
         if len(temp) != 0:
-            results.append(temp)        
+            results.append(lines[line][temp[0]])        
     np.save("../TestData/max_widthTest.npy", results)
     return results
     
@@ -58,17 +58,24 @@ def plotResults(results):
     plt.savefig("../Images/peakResults.png")
     return 
     
-def wakeDetection(simulationFile):
-     return plotResults(peakDetection(preCut(ridgeletLines(convertData(simulationFile)))))
+def wakeDetection(simulationFile, debug = 0):
+    if debug == 1:
+        return plotResults(peakDetection(preCut(ridgeletLines(convertData(simulationFile)))))
+    elif debug == 0:
+        return peakDetection(preCut(ridgeletLines(convertData(simulationFile))))
 
 def ask():
     default_name = "../RawData/0.000xv0(1)"
     simulationFile = raw_input("Name of the file (w/o '.dat') ? ")
     if simulationFile == "":
         simulationFile = default_name+".dat"
-    return wakeDetection(simulationFile)
+    return wakeDetection(simulationFile, debug = 1)
     
 #ask()
 lines = np.load("../TestData/linesTest.npy")
-results = peakDetection(preCut(lines))
+preLines = np.load("../TestData/preCutLines.npy")
+peakDetection(preLines)
+max_width = np.load("../TestData/max_widthTest.npy")
+#plotResults(max_width)
+
     

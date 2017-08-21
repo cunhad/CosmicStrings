@@ -109,7 +109,7 @@ def algorithm3(pos, speed = 1):
 #        for i in range(len(start)):
 #            start_end.append([start[i],end[i]])
 #        print np.shape(start_end)
-##        p = Process(target=lineCreate, args=(start_end,))
+##        p = Process(target=lineCreate, args=(start_end,))j
 ##        p.start()
 ##        p.join()
 #        with closing(Pool(processes = 4)) as p:

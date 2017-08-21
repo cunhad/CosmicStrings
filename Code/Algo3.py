@@ -14,7 +14,7 @@ import density3D as dens
 import cube
 import BrutForceNorm as bnorm
 import lineInterpolation as line
-"""
+
 #Data acquisition
 default_dataname = "pos(1)"
 dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
@@ -36,13 +36,13 @@ pos[0,:] = xpos[:]
 pos[1,:] = ypos[:]
 pos[2,:] = zpos[:]
 
-"""
+
 #This algo does not return ridglet coefficients, but rather the 
 #lines that have been created before the wavelet transform should 
 #occur
 def algorithm3(pos):
 
-    density, size = dens.density(pos, s = 1)
+    density, size = dens.density(pos, s = 100)
 
     print "Computing 3D FFT..."
     FFTdensity = np.fft.fftn(density)
@@ -52,6 +52,8 @@ def algorithm3(pos):
 
     print "Creating lines..."
     lines, xArray, yArray, zArray = line.lineCreation(startl,endl)
+    print np.shape(xArray)
+    return     
     
     print "Selecting FFT lines..."
     fftLines = []
@@ -87,4 +89,4 @@ def algorithm3(pos):
     return ifftLinesN
 
 
-#ifftLines = algorithm3(pos)
+ridgeletLines = algorithm3(pos)

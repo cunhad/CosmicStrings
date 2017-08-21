@@ -46,14 +46,16 @@ numPoints = 93
 
 def formatting(startArray, endArray):
     
-    startPoints = np.zeros((27648, 3), dtype = int)
-    for i in range(27648):
+    nbLines = np.shape(startArray)[0]
+    
+    startPoints = np.zeros((nbLines, 3), dtype = int)
+    for i in range(nbLines):
         for j in range(3):
             startPoints[i, j] = startArray[i][0][j]
             
-    endPoints = np.zeros((27648, 3), dtype = int)
+    endPoints = np.zeros((nbLines, 3), dtype = int)
             
-    for i in range(27648):
+    for i in range(nbLines):
         for j in range(3):
             endPoints[i, j] = endArray[i][0][j]
             

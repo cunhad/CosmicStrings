@@ -137,7 +137,7 @@ def lineCreation(start, end):
     lines = []
     for i in range(len(arrayx)):
         lines.append(np.array([arrayx[i][:],arrayy[i][:], arrayz[i][:]]))
-    return lines#, arrayx, arrayy, arrayz, slopey, slopez, length
+    return lines, arrayx, arrayy, arrayz#, slopey, slopez, length
 
 def initLineCreation_mp(start, end):
     print "Steps..."

@@ -9,24 +9,24 @@ Created on Mon Jul 17 20:03:49 2017
 import numpy as np
 import matplotlib.pyplot as plt
 
-##Data acquisition
-#default_dataname = "pos(1)"
-#dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
-#if dataname == "":    
-#    dataname = default_dataname
-#dataname = "../Data/" + dataname
-#dataname +=".npz"
-#
-#print ("Loading '%s'..." %dataname)
-#xpos = np.load(dataname)['x']
-#ypos = np.load(dataname)['y']
-#zpos = np.load(dataname)['z']
-#print ("Done!")
-#
-#pos = np.zeros((3,len(xpos)))
-#pos[0,:] = xpos[:]
-#pos[1,:] = ypos[:]
-#pos[2,:] = zpos[:]
+#Data acquisition
+default_dataname = "pos(1)"
+dataname = raw_input("filename w/o '.npz' (default is '%s')?: " %(default_dataname))
+if dataname == "":    
+    dataname = default_dataname
+dataname = "../Data/" + dataname
+dataname +=".npz"
+
+print ("Loading '%s'..." %dataname)
+xpos = np.load(dataname)['x']
+ypos = np.load(dataname)['y']
+zpos = np.load(dataname)['z']
+print ("Done!")
+
+pos = np.zeros((3,len(xpos)))
+pos[0,:] = xpos[:]
+pos[1,:] = ypos[:]
+pos[2,:] = zpos[:]
 
 def buffer_adjust(pos, nbCells):
     for i in range(len(pos)):

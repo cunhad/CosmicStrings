@@ -5,7 +5,7 @@ Spyder Editor
 This is a temporary script file.
 """
 
-import Algo3 as a
+import noNormAlgo3 as a
 import originalPeakDetection as pd
 import numpy as np
 import ConvertDataFloat32 as conv
@@ -43,6 +43,11 @@ def peakDetection(lines):
         temp = pd.find_max_width(lines[line])
         if len(temp) != 0:
             results.append(temp)        
+    print len(results)
+    if len(results) == 0:
+        print "No wakes were found."
+    else:
+        print "Wakes were found!"
     np.save("../TestData/max_widthTest.npy", results)
     return results
     
@@ -69,7 +74,7 @@ def initiate():
     #simulationFile = raw_input("Name of the file (w/o '.dat') ? ")
     #if simulationFile == "":
     #    simulationFile = default_name+".dat"
-    return wakeDetection(simulationFile, debug = 1)
+    return wakeDetection(simulationFile)
     
 initiate()
 #lines = np.load("../TestData/linesTest.npy")

@@ -38,7 +38,7 @@ import lineInterpolation as line
 
 def preCutLines_Arrays(lines, x, y, z, start, end):
     std = np.std(lines)#, axis=0)
-    std_away = 30 
+    std_away = 20 
     dev = std_away*std
 
     cutLines = []
@@ -65,6 +65,7 @@ def preCutLines_Arrays(lines, x, y, z, start, end):
 #lines that have been created before the wavelet transform should 
 #occur
 def algorithm3(pos):
+    print "Counting densities..."
     #print np.shape(pos)
     #density, size = dens.density(pos, s = 1)
     #np.savez("density.npz", density=density, size=size)

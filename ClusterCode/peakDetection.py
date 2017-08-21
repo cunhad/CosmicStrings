@@ -31,44 +31,40 @@ def multilevel_wavelet(data, level, An = [], Dn = []):
 #Checks for zero crossing on selected data and creates
 #an array with all appropriate indices (i+1).
 def zero_crossing(data,level):
-    print "%1.6f" %t.time()
     crossings = []
-    std_away = 2
-    std = np.std(data)
-    mean = np.mean(data)
-    dev = mean + std_away*std
-    print "%1.6f" %t.time()
+    #std_away = 2
+    #std = np.std(data)
+    #mean = np.mean(data)
+    #dev = mean + std_away*std
     for i in range(len(data)-1):
         #This checks for 3 sigmas significance
             #There are 2 cases for zero crossing
             #Still testing this!!!
-        if (data[i] > 0 and data[i+1] < 0) or (data[i] < 0 and data[i+1] > 0): 
-            if np.abs(data[i+1]-data[i]) >= dev:
-                crossings.append((2*i+1)*2**(level-1))
-#                crossings.append((i+1)*2**level)
-#            if data[i] < 0 and data[i+1] > 0:
-#                crossings.append((2*i+1)*2**(level-1))      
-#                crossings.append((i+1)*2**level)
+        if (data[i] > 0 and data[i+1] < 0):
+            crossings.append((2*i+1)*2**(level-1)-1)
+        if (data[i] < 0 and data[i+1] > 0): 
+            crossings.append((2*i+1)*2**(level-1)+1)
+
     return crossings
     
-def zero_crossings(data, level):
-    std_away = 1
-    std = np.std(data)
-    mean = np.mean(data)
-    dev = mean + std_away*std
-    crossings = []
-    candidates = []
-    for i in range(len(data)-1):
-        if data[i]>=dev:
-            candidates.append(i)
-    for i in candidates:
-        if data[i]>0 :
-            if data[i-1] < 0 or data[i+1]<0:
-                crossings.append((2*i+1)*2**(level-1))
-        elif data[i]<0:
-            if data[i-1] > 0 or data[i+1]>0:
-                crossings.append((2*i+1)*2**(level-1))
-    return crossings
+#def zero_crossings(data, level):
+#    std_away = 1
+#    std = np.std(data)
+#    mean = np.mean(data)
+#    dev = mean + std_away*std
+#    crossings = []
+#    candidates = []
+#    for i in range(len(data)-1):
+#        if data[i]>=dev:
+#            candidates.append(i)
+#    for i in candidates:
+#        if data[i]>0 :
+#            if data[i-1] < 0 or data[i+1]<0:
+#                crossings.append((2*i+1)*2**(level-1))
+#        elif data[i]<0:
+#            if data[i-1] > 0 or data[i+1]>0:
+#                crossings.append((2*i+1)*2**(level-1))
+#    return crossings
     
     
 #Returns the nearest value of an array
@@ -95,7 +91,7 @@ def detect_peak(data, level = -1, current_index = 0):
     zeros = []
     #Finds all zeros
     for i in range(len(D)):
-        zeros.append(zero_crossings(D[i],i+1))
+        zeros.append(zero_crossing(D[i],i+1))
     #Last zero crossings correspond to local maxima
     max_found = zeros[len(zeros)-1]
     for i in range(len(zeros)):
